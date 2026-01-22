@@ -20,6 +20,7 @@
     top: 0;
     left: 0;
     z-index: 0;
+    pointer-events: none;
   }
 
   .screen {
@@ -307,14 +308,7 @@
   // SUBMIT
   document.getElementById("submit").addEventListener("click", () => {
     const interests = document.getElementById("interests").value.trim();
-    if (!selectedRole || !interests) {
-      alert("Please select a role and enter your interests.");
-      return;
-    }
-
-    // Placeholder — replace with API call or redirect logic
-    console.log("Role:", selectedRole);
-    console.log("Interests:", interests);
+    if (!selectedRole || !interests) return;
 
     screen2.innerHTML = `
       <h1>You're in.</h1>
