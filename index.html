@@ -116,55 +116,54 @@
       box-shadow: 0 0 20px rgba(255,255,255,0.08);
     }
 
-    .submit, .choice, .role-card {
-      cursor: pointer;
-    }
-
     .submit {
       font-size: 1.2rem;
       letter-spacing: 2.2px;
       margin-top: 30px;
+      cursor: pointer;
     }
 
-    /* Investor Dashboard */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      max-width: 1100px;
-      width: 92%;
-      padding: 0 20px;
-      margin: 30px auto;
+    /* Roadmap styling */
+    .roadmap {
+      max-width: 700px;
+      width: 90%;
+      margin: 40px auto;
       text-align: left;
     }
 
-    .dash-card {
-      border: 1px solid rgba(255,255,255,0.15);
-      padding: 24px;
-      border-radius: 2px;
-      backdrop-filter: blur(6px);
-      background: rgba(255,255,255,0.02);
+    .roadmap-item {
+      position: relative;
+      padding-left: 40px;
+      margin: 28px 0;
+      font-size: 1.05rem;
+      line-height: 1.5;
     }
 
-    .dash-card h3 {
-      font-weight: 300;
-      font-size: 1.3rem;
-      margin-bottom: 12px;
-      letter-spacing: 0.8px;
-      opacity: 0.9;
+    .roadmap-item::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: rgba(255,255,255,0.6);
+      font-weight: bold;
     }
 
-    .dash-card p, .dash-card li {
-      font-size: 0.96rem;
-      line-height: 1.6;
-      opacity: 0.8;
-      margin: 8px 0;
-    }
-
-    .dash-highlight {
-      color: #ffffff;
+    .roadmap-year {
       font-weight: 400;
+      color: white;
       opacity: 1;
+    }
+
+    .roadmap-check {
+      color: #55ff99;
+      margin-left: 6px;
+      font-weight: bold;
+    }
+
+    .contact-footer {
+      margin-top: 60px;
+      font-size: 1rem;
+      opacity: 0.7;
+      line-height: 1.6;
     }
 
     .dash-link {
@@ -265,55 +264,33 @@
       We're moving fast and breaking things. Updates happen frequently.
     </p>
 
-    <div class="dashboard-grid">
-      <div class="dash-card">
-        <h3>Current Status</h3>
-        <p><span class="dash-highlight">Stage:</span> Pre-seed / Alpha</p>
-        <p><span class="dash-highlight">Team:</span> 3 full-time</p>
-        <p><span class="dash-highlight">Traction:</span> Internal prototype + early user feedback</p>
+    <div class="roadmap">
+      <h2>Roadmap</h2>
+      <div class="roadmap-item">
+        <span class="roadmap-year">2023</span> — AI Supply Chain Tracking PoC <span class="roadmap-check">✅</span>
       </div>
+      <div class="roadmap-item">
+        <span class="roadmap-year">2024</span> — Reliable AI Concept-brand tech <span class="roadmap-check">✅</span>
+      </div>
+      <div class="roadmap-item">
+        <span class="roadmap-year">2025</span> — Cashflow business gen PoC <span class="roadmap-check">✅</span>
+      </div>
+      <div class="roadmap-item">
+        <span class="roadmap-year">2026</span> — On-demand hiring/training public launch
+      </div>
+      <!-- Add more future items here as needed, e.g.:
+      <div class="roadmap-item">
+        <span class="roadmap-year">2027</span> — Global scale + enterprise integrations
+      </div>
+      -->
+    </div>
 
-      <div class="dash-card">
-        <h3>Key Metrics</h3>
-        <ul style="list-style:none; padding-left:0; margin:12px 0;">
-          <li>→ <span class="dash-highlight">Users in alpha:</span> 87</li>
-          <li>→ <span class="dash-highlight">Retention (7-day):</span> 41%</li>
-          <li>→ <span class="dash-highlight">Weekly growth:</span> +18–34%</li>
-          <li>→ <span class="dash-highlight">Burn:</span> $14.2k / mo</li>
-        </ul>
-      </div>
-
-      <div class="dash-card">
-        <h3>Timeline & Next Milestones</h3>
-        <ul style="list-style:none; padding-left:0; margin:12px 0;">
-          <li>→ Q1 2026 — Public beta launch</li>
-          <li>→ Q2 2026 — First revenue stream</li>
-          <li>→ Q3 2026 — Seed round target</li>
-        </ul>
-      </div>
-
-      <div class="dash-card">
-        <h3>Investment Ask</h3>
-        <p><span class="dash-highlight">$1.2M pre-seed</span> @ $8M post-money valuation</p>
-        <p>Use of funds:</p>
-        <ul style="list-style:none; padding-left:0; margin:8px 0;">
-          <li>• 55% Engineering / product</li>
-          <li>• 25% Go-to-market</li>
-          <li>• 20% Ops & runway</li>
-        </ul>
-      </div>
-
-      <div class="dash-card" style="grid-column: 1 / -1; text-align:center;">
-        <h3>Get in Touch</h3>
-        <p style="margin:20px 0;">
-          Deck (PDF): <a href="#" class="dash-link">[Insert link — e.g. docsend/bit.ly]</a><br>
-          Email: <a href="mailto:invest@unprincipled.inc" class="dash-link">invest@unprincipled.inc</a><br>
-          X / DMs open: <a href="https://x.com/UnprincipledInc" target="_blank" class="dash-link">@UnprincipledInc</a>
-        </p>
-        <p style="font-size:0.9rem; opacity:0.6; margin-top:30px;">
-          Last updated: January 22, 2026
-        </p>
-      </div>
+    <div class="contact-footer">
+      Deck: <a href="#" class="dash-link">[Insert secure link — e.g. DocSend]</a><br>
+      Email: <a href="mailto:invest@unprincipled.inc" class="dash-link">invest@unprincipled.inc</a><br>
+      X: <a href="https://x.com/UnprincipledInc" target="_blank" class="dash-link">@UnprincipledInc</a><br>
+      <br>
+      <span style="font-size:0.9rem; opacity:0.6;">Last updated: January 22, 2026</span>
     </div>
   </div>
 
@@ -404,7 +381,7 @@
       };
     });
 
-    // Submit → go to investor dashboard
+    // Submit → go to investor screen
     document.getElementById("submit").onclick = () => {
       const interests = document.getElementById("interests").value.trim();
 
