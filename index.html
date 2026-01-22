@@ -1,322 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Hiring Portal</title>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: black;
-    color: white;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    overflow: hidden;
-    height: 100%;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hiring Portal</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      overflow: hidden;
+      height: 100%;
+    }
 
-  canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-  .screen {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    opacity: 0;
-    transform: scale(1.02);
-    transition: opacity 1s ease, transform 1s ease;
-    z-index: 1;
-  }
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      opacity: 0;
+      transform: scale(1.02);
+      transition: opacity 1s ease, transform 1s ease;
+      z-index: 1;
+      pointer-events: none;           /* inactive by default */
+    }
 
-  .screen.active {
-    opacity: 1;
-    transform: scale(1);
-  }
+    .screen.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;           /* only active screen receives clicks */
+    }
 
-  h1 {
-    font-weight: 300;
-    letter-spacing: 1.2px;
-    font-size: 2.4rem;
-    margin-bottom: 60px;
-  }
+    h1 {
+      font-weight: 300;
+      letter-spacing: 1.2px;
+      font-size: 2.4rem;
+      margin-bottom: 60px;
+    }
 
-  .choices {
-    display: flex;
-    gap: 100px;
-  }
+    .choices {
+      display: flex;
+      gap: 100px;
+    }
 
-  .choice {
-    font-size: 1.5rem;
-    font-weight: 200;
-    letter-spacing: 2px;
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-  }
+    .choice {
+      font-size: 1.5rem;
+      font-weight: 200;
+      letter-spacing: 2px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
 
-  .choice::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -8px;
-    width: 100%;
-    height: 1px;
-    background: white;
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.4s ease;
-  }
+    .choice::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 100%;
+      height: 1px;
+      background: white;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.4s ease;
+    }
 
-  .choice:hover {
-    transform: translateY(-4px) scale(1.02);
-    opacity: 0.9;
-  }
+    .choice:hover {
+      transform: translateY(-4px) scale(1.02);
+      opacity: 0.9;
+    }
 
-  .choice:hover::after {
-    transform: scaleX(1);
-  }
+    .choice:hover::after {
+      transform: scaleX(1);
+    }
 
-  /* Role Screen */
+    /* Role Screen */
+    .roles {
+      display: flex;
+      gap: 60px;
+      margin-bottom: 50px;
+    }
 
-  .roles {
-    display: flex;
-    gap: 60px;
-    margin-bottom: 50px;
-  }
+    .role-card {
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 40px 30px;
+      width: 220px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.5s ease, border 0.5s ease, box-shadow 0.5s ease;
+      backdrop-filter: blur(4px);
+    }
 
-  .role-card {
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 40px 30px;
-    width: 220px;
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.5s ease, border 0.5s ease, box-shadow 0.5s ease;
-    backdrop-filter: blur(4px);
-  }
+    .role-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
 
-  .role-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.1), transparent);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
+    .role-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      border-color: rgba(255,255,255,0.6);
+      box-shadow: 0 0 30px rgba(255,255,255,0.08);
+    }
 
-  .role-card:hover {
-    transform: translateY(-10px) scale(1.03);
-    border-color: rgba(255,255,255,0.6);
-    box-shadow: 0 0 30px rgba(255,255,255,0.08);
-  }
+    .role-card:hover::before {
+      opacity: 1;
+    }
 
-  .role-card:hover::before {
-    opacity: 1;
-  }
+    .role-card.selected {
+      border-color: white;
+      box-shadow: 0 0 40px rgba(255,255,255,0.15);
+    }
 
-  .role-card.selected {
-    border-color: white;
-    box-shadow: 0 0 40px rgba(255,255,255,0.15);
-  }
+    .role-title {
+      font-size: 1.3rem;
+      font-weight: 300;
+      letter-spacing: 1.4px;
+      margin-bottom: 10px;
+    }
 
-  .role-title {
-    font-size: 1.3rem;
-    font-weight: 300;
-    letter-spacing: 1.4px;
-    margin-bottom: 10px;
-  }
+    .role-sub {
+      font-size: 0.85rem;
+      opacity: 0.6;
+      letter-spacing: 1px;
+    }
 
-  .role-sub {
-    font-size: 0.85rem;
-    opacity: 0.6;
-    letter-spacing: 1px;
-  }
+    textarea {
+      width: 480px;
+      max-width: 90vw;
+      height: 120px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      font-size: 1rem;
+      padding: 14px;
+      letter-spacing: 0.6px;
+      outline: none;
+      resize: none;
+      transition: border 0.4s ease, box-shadow 0.4s ease;
+    }
 
-  textarea {
-    width: 480px;
-    max-width: 90vw;
-    height: 120px;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: white;
-    font-size: 1rem;
-    padding: 14px;
-    letter-spacing: 0.6px;
-    outline: none;
-    resize: none;
-    transition: border 0.4s ease, box-shadow 0.4s ease;
-  }
+    textarea:focus {
+      border-color: white;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
 
-  textarea:focus {
-    border-color: white;
-    box-shadow: 0 0 20px rgba(255,255,255,0.1);
-  }
+    .submit {
+      margin-top: 40px;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
 
-  .submit {
-    margin-top: 40px;
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-  }
+    .submit::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 100%;
+      height: 1px;
+      background: white;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.4s ease;
+    }
 
-  .submit::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -8px;
-    width: 100%;
-    height: 1px;
-    background: white;
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.4s ease;
-  }
+    .submit:hover {
+      transform: translateY(-4px) scale(1.02);
+      opacity: 0.9;
+    }
 
-  .submit:hover {
-    transform: translateY(-4px) scale(1.02);
-    opacity: 0.9;
-  }
-
-  .submit:hover::after {
-    transform: scaleX(1);
-  }
-
-</style>
+    .submit:hover::after {
+      transform: scaleX(1);
+    }
+  </style>
 </head>
 <body>
-<canvas id="stars"></canvas>
+  <canvas id="stars"></canvas>
 
-<!-- Screen 1 -->
-<div class="screen active" id="screen1">
-  <h1>Are you ready to work right now?</h1>
-  <div class="choices">
-    <div class="choice" id="yes">Yes</div>
-    <div class="choice" id="no">No</div>
-  </div>
-</div>
-
-<!-- Screen 2 -->
-<div class="screen" id="screen2">
-  <h1>Select your role</h1>
-  <div class="roles">
-    <div class="role-card" data-role="Research">
-      <div class="role-title">Research</div>
-      <div class="role-sub">Discovery • Analysis • Insight</div>
-    </div>
-    <div class="role-card" data-role="Production">
-      <div class="role-title">Production</div>
-      <div class="role-sub">Creation • Execution • Delivery</div>
-    </div>
-    <div class="role-card" data-role="Services">
-      <div class="role-title">Services</div>
-      <div class="role-sub">Support • Strategy • Operations</div>
+  <!-- Screen 1 -->
+  <div class="screen active" id="screen1">
+    <h1>Are you ready to work right now?</h1>
+    <div class="choices">
+      <div class="choice" id="yes">Yes</div>
+      <div class="choice" id="no">No</div>
     </div>
   </div>
 
-  <textarea id="interests" placeholder="List your hobbies, interests, passions..."></textarea>
-
-  <div class="submit" id="submit">Continue</div>
-</div>
-
-<script>
-  // STARFIELD
-  const canvas = document.getElementById("stars");
-  const ctx = canvas.getContext("2d");
-  let width, height;
-  let stars = [];
-
-  function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  }
-
-  window.addEventListener("resize", resize);
-  resize();
-
-  function createStars(count) {
-    stars = [];
-    for (let i = 0; i < count; i++) {
-      stars.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        radius: Math.random() * 1.2,
-        speed: Math.random() * 0.4 + 0.1,
-        alpha: Math.random()
-      });
-    }
-  }
-
-  createStars(160);
-
-  function animateStars() {
-    ctx.clearRect(0, 0, width, height);
-    for (let star of stars) {
-      star.y += star.speed;
-      if (star.y > height) {
-        star.y = 0;
-        star.x = Math.random() * width;
-      }
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
-      ctx.fill();
-    }
-    requestAnimationFrame(animateStars);
-  }
-
-  animateStars();
-
-  // SCREEN LOGIC
-  const yes = document.getElementById("yes");
-  const no = document.getElementById("no");
-  const screen1 = document.getElementById("screen1");
-  const screen2 = document.getElementById("screen2");
-
-  yes.addEventListener("click", () => {
-    screen1.classList.remove("active");
-    setTimeout(() => {
-      screen2.classList.add("active");
-    }, 800);
-  });
-
-  no.addEventListener("click", () => {
-    window.location.href = "https://youtu.be/SbYXkOAoZpI?si=cgZi_tKlwgP-JZnz";
-  });
-
-  // ROLE SELECTION
-  const roleCards = document.querySelectorAll(".role-card");
-  let selectedRole = null;
-
-  roleCards.forEach(card => {
-    card.addEventListener("click", () => {
-      roleCards.forEach(c => c.classList.remove("selected"));
-      card.classList.add("selected");
-      selectedRole = card.dataset.role;
-    });
-  });
-
-  // SUBMIT
-  document.getElementById("submit").addEventListener("click", () => {
-    const interests = document.getElementById("interests").value.trim();
-    if (!selectedRole || !interests) return;
-
-    screen2.innerHTML = `
-      <h1>You're in.</h1>
-      <div style="font-size:1.1rem; opacity:0.7; letter-spacing:1px;">
-        We’ll be in touch shortly.
+  <!-- Screen 2 -->
+  <div class="screen" id="screen2">
+    <h1>Select your role</h1>
+    <div class="roles">
+      <div class="role-card" data-role="Research">
+        <div class="role-title">Research</div>
+        <div class="role-sub">Discovery • Analysis • Insight</div>
       </div>
-    `;
-  });
-</script>
+      <div class="role-card" data-role="Production">
+        <div class="role-title">Production</div>
+        <div class="role-sub">Creation • Execution • Delivery</div>
+      </div>
+      <div class="role-card" data-role="Services">
+        <div class="role-title">Services</div>
+        <div class="role-sub">Support • Strategy • Operations</div>
+      </div>
+    </div>
+
+    <textarea id="interests" placeholder="List your hobbies, interests, passions..."></textarea>
+
+    <div class="submit" id="submit">Continue</div>
+  </div>
+
+  <script>
+    // ── STARFIELD ────────────────────────────────────────────────
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    let stars = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+
+    function createStars(count) {
+      stars = [];
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 1.2 + 0.3,
+          speed: Math.random() * 0.4 + 0.08,
+          alpha: Math.random() * 0.7 + 0.3
+        });
+      }
+    }
+
+    createStars(160);
+
+    function animateStars() {
+      ctx.clearRect(0, 0, width, height);
+      for (let star of stars) {
+        star.y += star.speed;
+        if (star.y > height) {
+          star.y = -10;
+          star.x = Math.random() * width;
+        }
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(animateStars);
+    }
+
+    animateStars();
+
+    // ── SCREEN NAVIGATION ────────────────────────────────────────
+    const screen1 = document.getElementById("screen1");
+    const screen2 = document.getElementById("screen2");
+
+    document.getElementById("yes").addEventListener("click", () => {
+      screen1.classList.remove("active");
+      setTimeout(() => {
+        screen2.classList.add("active");
+      }, 900); // slightly longer than transition for clean feel
+    });
+
+    document.getElementById("no").addEventListener("click", () => {
+      window.location.href = "https://youtu.be/SbYXkOAoZpI?si=cgZi_tKlwgP-JZnz";
+    });
+
+    // ── ROLE SELECTION ───────────────────────────────────────────
+    const roleCards = document.querySelectorAll(".role-card");
+    let selectedRole = null;
+
+    roleCards.forEach(card => {
+      card.addEventListener("click", () => {
+        roleCards.forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+        selectedRole = card.dataset.role;
+      });
+    });
+
+    // ── SUBMIT ───────────────────────────────────────────────────
+    document.getElementById("submit").addEventListener("click", () => {
+      const interests = document.getElementById("interests").value.trim();
+
+      if (!selectedRole) {
+        alert("Please select a role.");
+        return;
+      }
+      if (!interests) {
+        alert("Please tell us about your interests/passions.");
+        return;
+      }
+
+      // Success state
+      screen2.innerHTML = `
+        <h1>You're in.</h1>
+        <div style="font-size:1.1rem; opacity:0.7; letter-spacing:1px; margin-top:20px;">
+          We’ll be in touch shortly.
+        </div>
+      `;
+    });
+  </script>
 </body>
 </html>
