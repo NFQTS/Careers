@@ -234,6 +234,77 @@
       line-height: 1.4;
     }
 
+    /* Featured Opportunities Slider */
+    .featured-section {
+      width: 100%;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .featured-slider {
+      position: relative;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .slider-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .job-card {
+      flex: 0 0 clamp(200px, 30vw, 300px);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: clamp(20px, 4vw, 30px);
+      margin-right: 20px;
+      text-align: center;
+      backdrop-filter: blur(4px);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .job-card:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 0 40px rgba(255,255,255,0.12);
+    }
+
+    .job-title {
+      font-size: clamp(1.1rem, 3vw, 1.35rem);
+      margin-bottom: 8px;
+    }
+
+    .job-desc {
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      opacity: 0.65;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .slider-btn:hover {
+      opacity: 1;
+    }
+
+    .prev-btn {
+      left: 10px;
+    }
+
+    .next-btn {
+      right: 10px;
+    }
+
     /* Rick modal (unchanged) */
     #rick-modal {
       position: fixed;
@@ -289,6 +360,33 @@
       <div class="choice" id="yes">Yes</div>
       <div class="choice" id="no">No</div>
     </div>
+
+    <!-- Featured Opportunities -->
+    <div class="featured-section">
+      <h2>Featured Opportunities</h2>
+      <div class="featured-slider">
+        <div class="slider-track">
+          <div class="job-card">
+            <div class="job-title">AI Researcher</div>
+            <div class="job-desc">Explore cutting-edge AI in supply chain.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Video Producer</div>
+            <div class="job-desc">Create engaging content for brands.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Operations Specialist</div>
+            <div class="job-desc">Streamline services and strategies.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Data Analyst</div>
+            <div class="job-desc">Analyze insights for business growth.</div>
+          </div>
+        </div>
+        <button class="slider-btn prev-btn">←</button>
+        <button class="slider-btn next-btn">→</button>
+      </div>
+    </div>
   </div>
 
   <!-- Screen 2 -->
@@ -312,6 +410,33 @@
     <textarea id="interests" placeholder="List your hobbies, interests, passions..."></textarea>
 
     <div class="submit" id="submit">Continue</div>
+
+    <!-- Featured Opportunities -->
+    <div class="featured-section">
+      <h2>Featured Opportunities</h2>
+      <div class="featured-slider">
+        <div class="slider-track">
+          <div class="job-card">
+            <div class="job-title">AI Researcher</div>
+            <div class="job-desc">Explore cutting-edge AI in supply chain.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Video Producer</div>
+            <div class="job-desc">Create engaging content for brands.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Operations Specialist</div>
+            <div class="job-desc">Streamline services and strategies.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Data Analyst</div>
+            <div class="job-desc">Analyze insights for business growth.</div>
+          </div>
+        </div>
+        <button class="slider-btn prev-btn">←</button>
+        <button class="slider-btn next-btn">→</button>
+      </div>
+    </div>
   </div>
 
   <!-- Investor Dashboard Screen (Roadmap) -->
@@ -340,6 +465,33 @@
     </div>
 
     <div class="submit" id="continue-to-impact">Continue to Impact</div>
+
+    <!-- Featured Opportunities -->
+    <div class="featured-section">
+      <h2>Featured Opportunities</h2>
+      <div class="featured-slider">
+        <div class="slider-track">
+          <div class="job-card">
+            <div class="job-title">AI Researcher</div>
+            <div class="job-desc">Explore cutting-edge AI in supply chain.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Video Producer</div>
+            <div class="job-desc">Create engaging content for brands.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Operations Specialist</div>
+            <div class="job-desc">Streamline services and strategies.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Data Analyst</div>
+            <div class="job-desc">Analyze insights for business growth.</div>
+          </div>
+        </div>
+        <button class="slider-btn prev-btn">←</button>
+        <button class="slider-btn next-btn">→</button>
+      </div>
+    </div>
 
     <div class="contact-footer">
       Email: <a href="mailto:assistance@unprincipled.inc" class="dash-link">assistance@unprincipled.inc</a><br>
@@ -382,6 +534,33 @@
           <span class="impact-number">4</span>
           <span class="impact-desc">Gigs Facilitated</span>
         </div>
+      </div>
+    </div>
+
+    <!-- Featured Opportunities -->
+    <div class="featured-section">
+      <h2>Featured Opportunities</h2>
+      <div class="featured-slider">
+        <div class="slider-track">
+          <div class="job-card">
+            <div class="job-title">AI Researcher</div>
+            <div class="job-desc">Explore cutting-edge AI in supply chain.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Video Producer</div>
+            <div class="job-desc">Create engaging content for brands.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Operations Specialist</div>
+            <div class="job-desc">Streamline services and strategies.</div>
+          </div>
+          <div class="job-card">
+            <div class="job-title">Data Analyst</div>
+            <div class="job-desc">Analyze insights for business growth.</div>
+          </div>
+        </div>
+        <button class="slider-btn prev-btn">←</button>
+        <button class="slider-btn next-btn">→</button>
       </div>
     </div>
 
@@ -497,7 +676,29 @@
       screens.s3.classList.remove("active");
       setTimeout(() => screens.s4.classList.add("active"), 900);
     };
+
+    // Slider logic for all sliders
+    document.querySelectorAll('.featured-slider').forEach(slider => {
+      const track = slider.querySelector('.slider-track');
+      const prevBtn = slider.querySelector('.prev-btn');
+      const nextBtn = slider.querySelector('.next-btn');
+      const cardWidth = slider.querySelector('.job-card').offsetWidth + 20; // width + margin
+      let position = 0;
+
+      nextBtn.onclick = () => {
+        position -= cardWidth;
+        const maxPosition = - (track.children.length - 1) * cardWidth;
+        if (position < maxPosition) position = maxPosition;
+        track.style.transform = `translateX(${position}px)`;
+      };
+
+      prevBtn.onclick = () => {
+        position += cardWidth;
+        if (position > 0) position = 0;
+        track.style.transform = `translateX(${position}px)`;
+      };
+    });
   </script>
 </body>
 </html>
-```​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+```​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
