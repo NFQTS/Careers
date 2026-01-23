@@ -56,7 +56,7 @@
       font-weight: 300;
       font-size: clamp(1.4rem, 4vw, 1.8rem);
       letter-spacing: 1px;
-      margin: 40px 0 20px;
+      margin: 40px 0 30px;
       opacity: 0.9;
     }
 
@@ -123,47 +123,58 @@
       cursor: pointer;
     }
 
-    /* Roadmap styling */
+    /* Centered Roadmap */
+    .roadmap-section {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
     .roadmap {
-      max-width: 700px;
-      width: 90%;
-      margin: 40px auto;
       text-align: left;
+      display: inline-block;
+      width: 100%;
     }
 
     .roadmap-item {
       position: relative;
-      padding-left: 40px;
-      margin: 28px 0;
-      font-size: 1.05rem;
+      padding-left: 48px;
+      margin: 32px 0;
+      font-size: clamp(1.05rem, 2.8vw, 1.15rem);
       line-height: 1.5;
     }
 
     .roadmap-item::before {
       content: "→";
       position: absolute;
-      left: 0;
-      color: rgba(255,255,255,0.6);
+      left: 12px;
+      top: 2px;
+      color: rgba(255,255,255,0.7);
       font-weight: bold;
+      font-size: 1.3rem;
     }
 
     .roadmap-year {
       font-weight: 400;
       color: white;
       opacity: 1;
+      display: inline-block;
+      min-width: 80px;
     }
 
     .roadmap-check {
       color: #55ff99;
-      margin-left: 6px;
+      margin-left: 8px;
       font-weight: bold;
     }
 
     .contact-footer {
-      margin-top: 60px;
+      margin-top: 80px;
       font-size: 1rem;
       opacity: 0.7;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .dash-link {
@@ -264,29 +275,25 @@
       We're moving fast and breaking things. Updates happen frequently.
     </p>
 
-    <div class="roadmap">
+    <div class="roadmap-section">
       <h2>Roadmap</h2>
-      <div class="roadmap-item">
-        <span class="roadmap-year">2023</span> — AI Supply Chain Tracking PoC <span class="roadmap-check">✅</span>
+      <div class="roadmap">
+        <div class="roadmap-item">
+          <span class="roadmap-year">2023</span> — AI Supply Chain Tracking PoC <span class="roadmap-check">✅</span>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-year">2024</span> — Reliable AI Concept-brand tech <span class="roadmap-check">✅</span>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-year">2025</span> — Cashflow business gen PoC <span class="roadmap-check">✅</span>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-year">2026</span> — On-demand hiring/training public launch
+        </div>
       </div>
-      <div class="roadmap-item">
-        <span class="roadmap-year">2024</span> — Reliable AI Concept-brand tech <span class="roadmap-check">✅</span>
-      </div>
-      <div class="roadmap-item">
-        <span class="roadmap-year">2025</span> — Cashflow business gen PoC <span class="roadmap-check">✅</span>
-      </div>
-      <div class="roadmap-item">
-        <span class="roadmap-year">2026</span> — On-demand hiring/training public launch
-      </div>
-      <!-- Add more future items here as needed, e.g.:
-      <div class="roadmap-item">
-        <span class="roadmap-year">2027</span> — Global scale + enterprise integrations
-      </div>
-      -->
     </div>
 
     <div class="contact-footer">
-      Deck: <a href="#" class="dash-link">[Insert secure link — e.g. DocSend]</a><br>
       Email: <a href="mailto:invest@unprincipled.inc" class="dash-link">invest@unprincipled.inc</a><br>
       X: <a href="https://x.com/UnprincipledInc" target="_blank" class="dash-link">@UnprincipledInc</a><br>
       <br>
@@ -307,7 +314,7 @@
   </div>
 
   <script>
-    // STARFIELD (unchanged)
+    // STARFIELD
     const canvas = document.getElementById("stars");
     const ctx = canvas.getContext("2d");
     let width, height, stars = [];
@@ -381,7 +388,7 @@
       };
     });
 
-    // Submit → go to investor screen
+    // Submit → investor screen
     document.getElementById("submit").onclick = () => {
       const interests = document.getElementById("interests").value.trim();
 
