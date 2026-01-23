@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Live Portal — Alpha</title>
+  <title>Hiring Portal — Alpha</title>
   <style>
     html, body {
       margin: 0;
@@ -11,349 +11,737 @@
       background: black;
       color: white;
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      min-height: 100vh;
+      overflow: hidden;
+      height: 100%;
     }
 
-    h1, h2 {
-      font-weight: 300;
-      letter-spacing: 1px;
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
       text-align: center;
+      opacity: 0;
+      transform: scale(1.02);
+      transition: opacity 1s ease, transform 1s ease;
+      z-index: 1;
+      pointer-events: none;
+      overflow-y: auto;
     }
 
-    section {
-      padding: 60px 20px;
-      max-width: 1000px;
+    .screen.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    h1 {
+      font-weight: 300;
+      letter-spacing: 1.2px;
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-weight: 300;
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      letter-spacing: 1px;
+      margin: 40px 0 30px;
+      opacity: 0.9;
+    }
+
+    .choices, .roles {
+      display: flex;
+      gap: clamp(40px, 8vw, 80px);
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .choice, .role-card {
+      font-size: clamp(1.3rem, 4vw, 1.5rem);
+      font-weight: 200;
+      letter-spacing: 2px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.4s ease;
+    }
+
+    .choice:hover, .role-card:hover {
+      transform: translateY(-6px) scale(1.03);
+      opacity: 0.92;
+    }
+
+    .role-card {
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: clamp(24px, 5vw, 36px) clamp(20px, 4vw, 28px);
+      width: clamp(180px, 38vw, 240px);
+      backdrop-filter: blur(4px);
+    }
+
+    .role-card.selected {
+      border-color: white;
+      box-shadow: 0 0 40px rgba(255,255,255,0.12);
+    }
+
+    .role-title { font-size: clamp(1.1rem, 3vw, 1.35rem); margin-bottom: 8px; }
+    .role-sub   { font-size: clamp(0.8rem, 2vw, 0.9rem);  opacity: 0.65; }
+
+    textarea {
+      width: clamp(320px, 80vw, 500px);
+      height: 110px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      font-size: 1rem;
+      padding: 14px;
+      margin: 20px 0 30px;
+      resize: none;
+      outline: none;
+      transition: border 0.4s, box-shadow 0.4s;
+    }
+
+    textarea:focus {
+      border-color: white;
+      box-shadow: 0 0 20px rgba(255,255,255,0.08);
+    }
+
+    .submit {
+      font-size: 1.2rem;
+      letter-spacing: 2.2px;
+      margin-top: 30px;
+      cursor: pointer;
+    }
+
+    /* Centered Roadmap */
+    .roadmap-section {
+      width: 100%;
+      max-width: 720px;
       margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
     }
 
-    .grid {
+    .roadmap {
+      text-align: left;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .roadmap-item {
+      position: relative;
+      padding-left: 48px;
+      margin: 32px 0;
+      font-size: clamp(1.05rem, 2.8vw, 1.15rem);
+      line-height: 1.5;
+    }
+
+    .roadmap-item::before {
+      content: "→";
+      position: absolute;
+      left: 12px;
+      top: 2px;
+      color: rgba(255,255,255,0.7);
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+
+    .roadmap-year {
+      font-weight: 400;
+      color: white;
+      opacity: 1;
+      display: inline-block;
+      min-width: 80px;
+    }
+
+    .roadmap-check {
+      color: #55ff99;
+      margin-left: 8px;
+      font-weight: bold;
+    }
+
+    .contact-footer {
+      margin-top: 80px;
+      font-size: 1rem;
+      opacity: 0.7;
+      line-height: 1.7;
+    }
+
+    .dash-link {
+      color: #a0d0ff;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-bottom 0.3s;
+    }
+
+    .dash-link:hover {
+      border-bottom: 1px solid #a0d0ff;
+    }
+
+    /* Impact Dashboard Styles */
+    .impact-section {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .impact-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 32px;
+      gap: clamp(20px, 4vw, 40px);
       justify-items: center;
+      margin-bottom: 40px;
     }
 
-    .card {
+    .impact-card {
       border: 1px solid rgba(255,255,255,0.2);
-      padding: 28px;
+      padding: clamp(20px, 4vw, 30px);
       width: 100%;
-      max-width: 240px;
+      max-width: 220px;
       text-align: center;
       backdrop-filter: blur(4px);
       transition: all 0.4s ease;
     }
 
-    .card:hover {
+    .impact-card:hover {
       transform: translateY(-6px) scale(1.03);
       box-shadow: 0 0 40px rgba(255,255,255,0.12);
     }
 
-    .number {
-      font-size: 3rem;
+    .impact-number {
+      font-size: clamp(2.5rem, 6vw, 3.5rem);
       font-weight: 200;
-      margin-bottom: 10px;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
       display: block;
+      transition: color 0.6s ease;
     }
 
-    .desc {
-      font-size: 0.95rem;
-      opacity: 0.8;
+    .impact-number.updated {
+      color: #55ff99;
+    }
+
+    .impact-desc {
+      font-size: clamp(0.9rem, 2.2vw, 1rem);
+      opacity: 0.85;
       line-height: 1.4;
     }
 
-    /* Opportunities */
-    .opportunity-card {
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 24px;
+    /* Featured Opportunities Slider */
+    .featured-section {
       width: 100%;
-      max-width: 320px;
-      text-align: center;
-      transition: all 0.4s ease;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      box-sizing: border-box;
     }
 
-    .opportunity-card:hover {
+    .featured-slider {
+      position: relative;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .slider-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .job-card {
+      flex: 0 0 clamp(200px, 30vw, 300px);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: clamp(20px, 4vw, 30px);
+      margin-right: 20px;
+      text-align: center;
+      backdrop-filter: blur(4px);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .job-card:hover {
       transform: translateY(-6px) scale(1.03);
       box-shadow: 0 0 40px rgba(255,255,255,0.12);
     }
 
-    .opportunity-title {
-      font-size: 1.2rem;
+    .job-title {
+      font-size: clamp(1.1rem, 3vw, 1.35rem);
       margin-bottom: 8px;
     }
 
-    .opportunity-desc {
-      font-size: 0.9rem;
-      opacity: 0.7;
-      margin-bottom: 10px;
+    .job-desc {
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      opacity: 0.65;
     }
 
-    .opportunity-category {
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      opacity: 0.6;
-      text-transform: uppercase;
-    }
-
-    /* Auctions */
-    .auction-card {
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 28px;
-      width: 100%;
-      max-width: 360px;
-      text-align: left;
-      transition: all 0.4s ease;
-    }
-
-    .auction-card:hover {
-      transform: translateY(-6px) scale(1.03);
-      box-shadow: 0 0 40px rgba(255,255,255,0.12);
-    }
-
-    .auction-title {
-      font-size: 1.25rem;
-      margin-bottom: 6px;
-    }
-
-    .auction-type {
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      opacity: 0.6;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-    }
-
-    .auction-desc {
-      font-size: 0.95rem;
-      opacity: 0.75;
-      margin-bottom: 14px;
-    }
-
-    .auction-bid {
-      font-size: 1.1rem;
-      font-weight: 300;
-      margin-bottom: 10px;
-    }
-
-    .auction-end {
-      font-size: 0.8rem;
-      opacity: 0.6;
-      margin-bottom: 12px;
-    }
-
-    .bid-input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
       background: transparent;
-      border: 1px solid rgba(255,255,255,0.3);
+      border: none;
       color: white;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    .bid-btn {
-      width: 100%;
-      padding: 10px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.6);
-      color: white;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
+      font-size: 2rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      opacity: 0.7;
+      transition: opacity 0.3s;
     }
 
-    .bid-btn:hover {
-      background: white;
-      color: black;
+    .slider-btn:hover {
+      opacity: 1;
     }
 
-    .hud {
+    .prev-btn {
+      left: 10px;
+    }
+
+    .next-btn {
+      right: 10px;
+    }
+
+    /* Rick modal */
+    #rick-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.98);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      cursor: pointer;
+      padding: 2vh 2vw;
+    }
+
+    #rick-modal.active { display: flex; }
+
+    .rick-container {
+      position: relative;
+      width: 90vw;
+      max-width: 90vh;
+      max-height: 80vh;
+      aspect-ratio: 16 / 9;
+      margin: auto;
+      box-shadow: 0 0 60px rgba(255,255,255,0.15);
+    }
+
+    @supports not (aspect-ratio: 16 / 9) {
+      .rick-container { padding-top: 56.25%; }
+      .rick-container iframe { position: absolute; inset: 0; }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: -2.8rem;
+      right: 0;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    .close-btn:hover { opacity: 1; }
+
+    iframe { width: 100%; height: 100%; border: none; }
+
+    /* PBBG Reward HUD */
+    #reward-hud {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       background: rgba(0,0,0,0.6);
-      padding: 10px 16px;
+      padding: 8px 16px;
       display: flex;
       justify-content: space-between;
-      font-size: 0.85rem;
-      opacity: 0.85;
-      z-index: 10;
+      align-items: center;
+      z-index: 2;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    #reward-hud:hover {
+      opacity: 1;
+    }
+
+    #resources {
+      font-weight: bold;
+    }
+
+    #timer {
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
+  <canvas id="stars"></canvas>
 
-  <div class="hud">
-    <span>Live Sync In: <span id="timer">01:00</span></span>
-    <span>Status: <span id="status">Connecting…</span></span>
+  <!-- PBBG Reward HUD -->
+  <div id="reward-hud">
+    <span>Impact: <span id="resources">0</span></span>
+    <span>Next Reward In: <span id="timer">1:00</span></span>
   </div>
 
-  <!-- IMPACT -->
-  <section>
+  <!-- Screen 1 -->
+  <div class="screen active" id="screen1">
+    <h1>Are you ready to work right now?</h1>
+    <div class="choices">
+      <div class="choice" id="yes">Yes</div>
+      <div class="choice" id="no">No</div>
+    </div>
+
+    <div class="featured-section">
+      <h2>Featured Opportunities</h2>
+      <div class="featured-slider">
+        <div class="slider-track">
+          <div class="job-card"><div class="job-title">Auto Sales</div><div class="job-desc">List, negotiate, and sell cars/trucks.</div></div>
+          <div class="job-card"><div class="job-title">Youtuber</div><div class="job-desc">Create engaging content for brands.</div></div>
+          <div class="job-card"><div class="job-title">Landscaper/Gardener</div><div class="job-desc">Make fertilizer and keep properties/plants happy and healthy.</div></div>
+        </div>
+        <button class="slider-btn prev-btn">←</button>
+        <button class="slider-btn next-btn">→</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 2 -->
+  <div class="screen" id="screen2">
+    <h1>Select your role</h1>
+    <div class="roles">
+      <div class="role-card" data-role="Research">
+        <div class="role-title">Research</div>
+        <div class="role-sub">Discovery • Analysis • Insight</div>
+      </div>
+      <div class="role-card" data-role="Production">
+        <div class="role-title">Production</div>
+        <div class="role-sub">Creation • Execution • Delivery</div>
+      </div>
+      <div class="role-card" data-role="Services">
+        <div class="role-title">Services</div>
+        <div class="role-sub">Support • Strategy • Operations</div>
+      </div>
+    </div>
+
+    <textarea id="interests" placeholder="List your hobbies, interests, passions..."></textarea>
+
+    <div class="submit" id="submit">Continue</div>
+
+    <div class="featured-section">
+      <h2>Featured Opportunities</h2>
+      <div class="featured-slider">
+        <div class="slider-track">
+          <div class="job-card"><div class="job-title">Auto Sales</div><div class="job-desc">List, negotiate, and sell cars/trucks.</div></div>
+          <div class="job-card"><div class="job-title">Youtuber</div><div class="job-desc">Create engaging content for brands.</div></div>
+          <div class="job-card"><div class="job-title">Landscaper/Gardener</div><div class="job-desc">Make fertilizer and keep properties/plants happy and healthy.</div></div>
+        </div>
+        <button class="slider-btn prev-btn">←</button>
+        <button class="slider-btn next-btn">→</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 3 (Roadmap) -->
+  <div class="screen" id="screen3">
+    <h1>This is an alpha test.</h1>
+    <p style="font-size:1.1rem; opacity:0.7; max-width:600px; margin:0 auto 40px; line-height:1.6;">
+      We're moving fast and breaking things. Updates happen frequently.
+    </p>
+
+    <div class="roadmap-section">
+      <h2>Roadmap</h2>
+      <div class="roadmap">
+        <div class="roadmap-item"><span class="roadmap-year">2023</span> — AI Supply Chain Tracking PoC <span class="roadmap-check">✅</span></div>
+        <div class="roadmap-item"><span class="roadmap-year">2024</span> — Reliable AI Concept-to-brand tech PoC <span class="roadmap-check">✅</span></div>
+        <div class="roadmap-item"><span class="roadmap-year">2025</span> — Cashflow business gen PoC <span class="roadmap-check">✅</span></div>
+        <div class="roadmap-item"><span class="roadmap-year">2026</span> — On-demand hiring/training public launch</div>
+      </div>
+    </div>
+
+    <div class="submit" id="continue-to-impact">Continue to Impact</div>
+
+    <div class="featured-section">
+      <h2>Featured Opportunities</h2>
+      <div class="featured-slider">
+        <div class="slider-track">
+          <div class="job-card"><div class="job-title">Auto Sales</div><div class="job-desc">List, negotiate, and sell cars/trucks.</div></div>
+          <div class="job-card"><div class="job-title">Youtuber</div><div class="job-desc">Create engaging content for brands.</div></div>
+          <div class="job-card"><div class="job-title">Landscaper/Gardener</div><div class="job-desc">Make fertilizer and keep properties/plants happy and healthy.</div></div>
+        </div>
+        <button class="slider-btn prev-btn">←</button>
+        <button class="slider-btn next-btn">→</button>
+      </div>
+    </div>
+
+    <div class="contact-footer">
+      Email: <a href="mailto:assistance@unprincipled.inc" class="dash-link">assistance@unprincipled.inc</a><br>
+      X: <a href="https://x.com/UnprincipledInc" target="_blank" class="dash-link">@UnprincipledInc</a><br>
+      <br>
+      <span style="font-size:0.9rem; opacity:0.6;">Last updated: January 22, 2026</span>
+    </div>
+  </div>
+
+  <!-- Impact Screen (screen4) -->
+  <div class="screen" id="screen4">
     <h1>Our Impact</h1>
-    <div class="grid" id="impact-grid"></div>
-  </section>
+    <p style="font-size:1.1rem; opacity:0.7; max-width:600px; margin:0 auto 40px; line-height:1.6;">
+      See the difference we're making in the world.
+    </p>
 
-  <!-- OPPORTUNITIES -->
-  <section>
-    <h1>Live Opportunities</h1>
-    <div class="grid" id="opportunities-grid"></div>
-  </section>
+    <div class="impact-section">
+      <div class="impact-grid">
+        <div class="impact-card">
+          <span class="impact-number" data-key="vets">1</span>
+          <span class="impact-desc">Homeless Vets Housed</span>
+        </div>
+        <div class="impact-card">
+          <span class="impact-number" data-key="puppies">1</span>
+          <span class="impact-desc">Puppies Rescued</span>
+        </div>
+        <div class="impact-card">
+          <span class="impact-number" data-key="humans">2</span>
+          <span class="impact-desc">Humans Paid</span>
+        </div>
+        <div class="impact-card">
+          <span class="impact-number" data-key="animals">2</span>
+          <span class="impact-desc">Animals Paid</span>
+        </div>
+        <div class="impact-card">
+          <span class="impact-number" data-key="payout">$1,923</span>
+          <span class="impact-desc">Payout per Hour of Video</span>
+        </div>
+        <div class="impact-card">
+          <span class="impact-number" data-key="gigs">4</span>
+          <span class="impact-desc">Gigs Facilitated</span>
+        </div>
+      </div>
+    </div>
 
-  <!-- AUCTIONS -->
-  <section>
-    <h1>Public Auctions</h1>
-    <div class="grid" id="auctions-grid"></div>
-  </section>
+    <div class="featured-section">
+      <h2>Featured Opportunities</h2>
+      <div class="featured-slider">
+        <div class="slider-track">
+          <div class="job-card"><div class="job-title">Auto Sales</div><div class="job-desc">List, negotiate, and sell cars/trucks.</div></div>
+          <div class="job-card"><div class="job-title">Youtuber</div><div class="job-desc">Create engaging content for brands.</div></div>
+          <div class="job-card"><div class="job-title">Landscaper/Gardener</div><div class="job-desc">Make fertilizer and keep properties/plants happy and healthy.</div></div>
+        </div>
+        <button class="slider-btn prev-btn">←</button>
+        <button class="slider-btn next-btn">→</button>
+      </div>
+    </div>
+
+    <div class="contact-footer">
+      Email: <a href="mailto:assistance@unprincipled.inc" class="dash-link">assistance@unprincipled.inc</a><br>
+      X: <a href="https://x.com/UnprincipledInc" target="_blank" class="dash-link">@UnprincipledInc</a><br>
+      <br>
+      <span style="font-size:0.9rem; opacity:0.6;">Last updated: January 22, 2026</span>
+    </div>
+  </div>
+
+  <!-- Rick Modal -->
+  <div id="rick-modal">
+    <div class="rick-container">
+      <div class="close-btn">×</div>
+      <iframe 
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&rel=0&controls=0" 
+        allow="autoplay; encrypted-media" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
 
   <script>
-    // =====================
-    // CONFIG — paste your sheet URLs here
-    // =====================
-    const IMPACT_URL = "PASTE_IMPACT_SHEET_CSV_URL_HERE";
-    const OPPORTUNITIES_URL = "PASTE_OPPORTUNITIES_SHEET_CSV_URL_HERE";
-    const AUCTIONS_URL = "PASTE_AUCTIONS_SHEET_CSV_URL_HERE";
+    // ────────────────────────────────────────────────
+    // STARFIELD
+    // ────────────────────────────────────────────────
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+    let width, height, stars = [];
 
-    const statusEl = document.getElementById("status");
-    const timerEl = document.getElementById("timer");
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
 
+    function createStars() {
+      stars = [];
+      for (let i = 0; i < 160; i++) {
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 1.2 + 0.3,
+          speed: Math.random() * 0.4 + 0.08,
+          alpha: Math.random() * 0.7 + 0.3
+        });
+      }
+    }
+    createStars();
+
+    function animateStars() {
+      ctx.clearRect(0, 0, width, height);
+      stars.forEach(star => {
+        star.y += star.speed;
+        if (star.y > height) {
+          star.y = -10;
+          star.x = Math.random() * width;
+        }
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animateStars);
+    }
+    animateStars();
+
+    // ────────────────────────────────────────────────
+    // Screen Navigation
+    // ────────────────────────────────────────────────
+    const screens = {
+      s1: document.getElementById("screen1"),
+      s2: document.getElementById("screen2"),
+      s3: document.getElementById("screen3"),
+      s4: document.getElementById("screen4")
+    };
+
+    document.getElementById("yes").onclick = () => {
+      screens.s1.classList.remove("active");
+      setTimeout(() => screens.s2.classList.add("active"), 900);
+    };
+
+    const rickModal = document.getElementById("rick-modal");
+    document.getElementById("no").onclick = () => rickModal.classList.add("active");
+    rickModal.onclick = () => rickModal.classList.remove("active");
+    rickModal.querySelector(".close-btn").onclick = e => {
+      e.stopPropagation();
+      rickModal.classList.remove("active");
+    };
+
+    let selectedRole = null;
+    document.querySelectorAll(".role-card").forEach(card => {
+      card.onclick = () => {
+        document.querySelectorAll(".role-card").forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+        selectedRole = card.dataset.role;
+      };
+    });
+
+    document.getElementById("submit").onclick = () => {
+      const interests = document.getElementById("interests").value.trim();
+      if (!selectedRole) return alert("Please select a role.");
+      if (!interests) return alert("Please tell us about your interests/passions.");
+      screens.s2.classList.remove("active");
+      setTimeout(() => screens.s3.classList.add("active"), 900);
+    };
+
+    document.getElementById("continue-to-impact").onclick = () => {
+      screens.s3.classList.remove("active");
+      setTimeout(() => screens.s4.classList.add("active"), 900);
+    };
+
+    // ────────────────────────────────────────────────
+    // Featured Sliders (all instances)
+    // ────────────────────────────────────────────────
+    document.querySelectorAll('.featured-slider').forEach(slider => {
+      const track = slider.querySelector('.slider-track');
+      const prevBtn = slider.querySelector('.prev-btn');
+      const nextBtn = slider.querySelector('.next-btn');
+      const cardWidth = slider.querySelector('.job-card').offsetWidth + 20;
+      let position = 0;
+
+      nextBtn.onclick = () => {
+        position -= cardWidth;
+        const maxPosition = - (track.children.length - 1) * cardWidth;
+        if (position < maxPosition) position = maxPosition;
+        track.style.transform = `translateX(${position}px)`;
+      };
+
+      prevBtn.onclick = () => {
+        position += cardWidth;
+        if (position > 0) position = 0;
+        track.style.transform = `translateX(${position}px)`;
+      };
+    });
+
+    // ────────────────────────────────────────────────
+    // Reward System + Impact Auto-Refresh on Reward
+    // ────────────────────────────────────────────────
+    let resources = 0;
     let timeLeft = 60;
 
-    function updateTimer() {
-      const m = Math.floor(timeLeft / 60);
-      const s = timeLeft % 60;
-      timerEl.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-      if (timeLeft === 0) {
-        syncAll();
-        timeLeft = 60;
-      } else {
-        timeLeft--;
-      }
-    }
+    const resourcesElem = document.getElementById('resources');
+    const timerElem   = document.getElementById('timer');
 
-    function parseCSV(text) {
-      const rows = text.trim().split("\n").map(r => r.split(","));
-      const headers = rows.shift();
-      return rows.map(row => {
-        const obj = {};
-        headers.forEach((h, i) => obj[h.trim()] = row[i]?.trim());
-        return obj;
-      });
-    }
+    async function fetchImpactData() {
+      // ←──────── Replace this URL with your actual Google Sheet CSV export link
+      const csvUrl = 'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/export?format=csv&gid=YOUR_GID_HERE';
 
-    async function fetchSheet(url) {
-      const res = await fetch(url + "&t=" + Date.now());
-      const text = await res.text();
-      return parseCSV(text);
-    }
-
-    async function syncAll() {
       try {
-        statusEl.textContent = "Syncing…";
+        const response = await fetch(csvUrl);
+        if (!response.ok) throw new Error('CSV fetch failed');
+        const text = await response.text();
+        const lines = text.trim().split('\n').slice(1); // skip header
 
-        const [impactData, oppData, auctionData] = await Promise.all([
-          fetchSheet(IMPACT_URL),
-          fetchSheet(OPPORTUNITIES_URL),
-          fetchSheet(AUCTIONS_URL)
-        ]);
+        const impactNumbers = document.querySelectorAll('.impact-number');
 
-        renderImpact(impactData);
-        renderOpportunities(oppData);
-        renderAuctions(auctionData);
-
-        statusEl.textContent = "Live ✓";
-      } catch (e) {
-        console.error(e);
-        statusEl.textContent = "Offline";
-      }
-    }
-
-    // =====================
-    // RENDERERS
-    // =====================
-    function renderImpact(data) {
-      const grid = document.getElementById("impact-grid");
-      grid.innerHTML = "";
-
-      data.forEach(row => {
-        const value = formatValue(row.key, row.value);
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <span class="number">${value}</span>
-          <span class="desc">${formatLabel(row.key)}</span>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function renderOpportunities(data) {
-      const grid = document.getElementById("opportunities-grid");
-      grid.innerHTML = "";
-
-      data.filter(row => row.active === "true").forEach(row => {
-        const card = document.createElement("div");
-        card.className = "opportunity-card";
-        card.innerHTML = `
-          <div class="opportunity-title">${row.title}</div>
-          <div class="opportunity-desc">${row.description}</div>
-          <div class="opportunity-category">${row.category}</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function renderAuctions(data) {
-      const grid = document.getElementById("auctions-grid");
-      grid.innerHTML = "";
-
-      data.forEach(row => {
-        const card = document.createElement("div");
-        card.className = "auction-card";
-        card.innerHTML = `
-          <div class="auction-title">${row.title}</div>
-          <div class="auction-type">${row.type}</div>
-          <div class="auction-desc">${row.description}</div>
-          <div class="auction-bid">Current Bid: $${Number(row.current_bid).toLocaleString()}</div>
-          <div class="auction-end">Ends: ${new Date(row.ends_at).toLocaleString()}</div>
-          <input class="bid-input" type="number" min="${Number(row.current_bid) + 1}" placeholder="Enter your bid">
-          <button class="bid-btn">Place Bid</button>
-        `;
-        const btn = card.querySelector(".bid-btn");
-        const input = card.querySelector(".bid-input");
-        btn.onclick = () => {
-          const bid = input.value;
-          if (!bid || bid <= Number(row.current_bid)) {
-            alert("Bid must be higher than current bid.");
-            return;
+        lines.forEach((line, i) => {
+          if (i >= impactNumbers.length) return;
+          const parts = line.split(',').map(s => s.trim().replace(/^"|"$/g, ''));
+          const value = parts[1] || parts[0] || '—'; // flexible: value second or first column
+          const el = impactNumbers[i];
+          if (el.textContent !== value) {
+            el.textContent = value;
+            el.classList.add('updated');
+            setTimeout(() => el.classList.remove('updated'), 1800);
           }
-          alert(`Bid of $${Number(bid).toLocaleString()} submitted for "${row.title}".\n\n(This is a public demo — real bid logic comes later.)`);
-        };
-        grid.appendChild(card);
-      });
-    }
-
-    // =====================
-    // HELPERS
-    // =====================
-    function formatLabel(key) {
-      return key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
-    }
-
-    function formatValue(key, value) {
-      if (key.includes("fund") || key.includes("payout")) {
-        return "$" + Number(value).toLocaleString();
+        });
+      } catch (err) {
+        console.warn('Impact data update failed:', err);
       }
-      return Number(value).toLocaleString();
     }
 
-    // Initial load
-    syncAll();
-    setInterval(updateTimer, 1000);
-    updateTimer();
-  </script>
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerElem.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
 
+      if (timeLeft > 0) {
+        timeLeft--;
+      } else {
+        // Reward + refresh impact
+        resources += 1;
+        resourcesElem.textContent = resources;
+        timeLeft = 60;
+
+        // Refresh impact numbers right when reward triggers
+        fetchImpactData();
+      }
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();           // start immediately
+    fetchImpactData();       // also load once on page open
+
+    // Optional: refresh on entering impact screen too
+    document.getElementById("continue-to-impact").onclick = () => {
+      screens.s3.classList.remove("active");
+      setTimeout(() => {
+        screens.s4.classList.add("active");
+        fetchImpactData();   // extra refresh when viewing impact
+      }, 900);
+    };
+  </script>
 </body>
 </html>
