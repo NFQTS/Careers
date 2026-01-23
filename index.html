@@ -191,7 +191,7 @@
     /* Impact Dashboard Styles */
     .impact-section {
       width: 100%;
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 0 20px;
       box-sizing: border-box;
@@ -202,7 +202,7 @@
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: clamp(20px, 4vw, 40px);
       justify-items: center;
-      margin-bottom: 40px;
+      margin-bottom: 60px;
     }
 
     .impact-card {
@@ -232,6 +232,72 @@
       font-size: clamp(0.9rem, 2.2vw, 1rem);
       opacity: 0.85;
       line-height: 1.4;
+    }
+
+    /* Donor Leaderboard */
+    .leaderboard-section {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .leaderboard {
+      margin-top: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(4px);
+    }
+
+    .leaderboard-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .leaderboard-row:last-child {
+      border-bottom: none;
+    }
+
+    .leaderboard-name {
+      text-align: left;
+      opacity: 0.9;
+    }
+
+    .leaderboard-amount {
+      font-weight: 300;
+      opacity: 0.85;
+    }
+
+    .leaderboard-row.top {
+      background: linear-gradient(
+        90deg,
+        rgba(255,255,255,0.12),
+        rgba(255,255,255,0.02)
+      );
+      box-shadow: inset 0 0 30px rgba(255,255,255,0.05);
+    }
+
+    .donate-btn {
+      margin-top: 40px;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      padding: 14px 40px;
+      border: 1px solid rgba(255,255,255,0.4);
+      background: transparent;
+      color: white;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    .donate-btn:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 0 40px rgba(255,255,255,0.15);
+      border-color: white;
     }
 
     /* Featured Opportunities Slider */
@@ -305,7 +371,7 @@
       right: 10px;
     }
 
-    /* Rick modal (unchanged) */
+    /* Rick modal */
     #rick-modal {
       position: fixed;
       inset: 0;
@@ -560,6 +626,25 @@
       </div>
     </div>
 
+    <!-- Donor Leaderboard -->
+    <div class="leaderboard-section">
+      <h2>Top Donors</h2>
+      <div class="leaderboard">
+        <div class="leaderboard-row top">
+          <div class="leaderboard-name">Anonymous</div>
+          <div class="leaderboard-amount">$1,750</div>
+        </div>
+        <div class="leaderboard-row">
+          <div class="leaderboard-name">Anonymous</div>
+          <div class="leaderboard-amount">$261</div>
+        </div>
+      </div>
+
+      <button class="donate-btn" onclick="alert('Donation flow coming soon!')">
+        Donate
+      </button>
+    </div>
+
     <!-- Featured Opportunities -->
     <div class="featured-section">
       <h2>Featured Opportunities</h2>
@@ -720,7 +805,7 @@
 
     // PBBG Reward System (Subtle Timer and Resource Counter)
     let resources = 0;
-    let timeLeft = 60; // 10 minutes in seconds
+    let timeLeft = 60; // 1 minute in seconds
 
     const resourcesElem = document.getElementById('resources');
     const timerElem = document.getElementById('timer');
