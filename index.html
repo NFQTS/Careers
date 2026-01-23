@@ -348,10 +348,45 @@
     .close-btn:hover { opacity: 1; }
 
     iframe { width: 100%; height: 100%; border: none; }
+
+    /* PBBG Reward HUD */
+    #reward-hud {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.6);
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 2;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    #reward-hud:hover {
+      opacity: 1;
+    }
+
+    #resources {
+      font-weight: bold;
+    }
+
+    #timer {
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <canvas id="stars"></canvas>
+
+  <!-- PBBG Reward HUD -->
+  <div id="reward-hud">
+    <span>Impact Resources: <span id="resources">0</span></span>
+    <span>Next Reward In: <span id="timer">10:00</span></span>
+  </div>
 
   <!-- Screen 1 -->
   <div class="screen active" id="screen1">
@@ -367,20 +402,16 @@
       <div class="featured-slider">
         <div class="slider-track">
           <div class="job-card">
-            <div class="job-title">AI Researcher</div>
-            <div class="job-desc">Explore cutting-edge AI in supply chain.</div>
+            <div class="job-title">Auto Sales</div>
+            <div class="job-desc">List, negotiate, and sell cars/trucks.</div>
           </div>
           <div class="job-card">
-            <div class="job-title">Video Producer</div>
+            <div class="job-title">Youtuber</div>
             <div class="job-desc">Create engaging content for brands.</div>
           </div>
           <div class="job-card">
-            <div class="job-title">Operations Specialist</div>
-            <div class="job-desc">Streamline services and strategies.</div>
-          </div>
-          <div class="job-card">
-            <div class="job-title">Data Analyst</div>
-            <div class="job-desc">Analyze insights for business growth.</div>
+            <div class="job-title">Landscaper/Gardener</div>
+            <div class="job-desc">Make fertilizer and keep properties/plants happy and healthy.</div>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -468,20 +499,16 @@
       <div class="featured-slider">
         <div class="slider-track">
           <div class="job-card">
-            <div class="job-title">AI Researcher</div>
-            <div class="job-desc">Explore cutting-edge AI in supply chain.</div>
+            <div class="job-title">Auto Sales</div>
+            <div class="job-desc">List, negotiate, and sell cars/trucks.</div>
           </div>
           <div class="job-card">
-            <div class="job-title">Video Producer</div>
+            <div class="job-title">Youtuber</div>
             <div class="job-desc">Create engaging content for brands.</div>
           </div>
           <div class="job-card">
-            <div class="job-title">Operations Specialist</div>
-            <div class="job-desc">Streamline services and strategies.</div>
-          </div>
-          <div class="job-card">
-            <div class="job-title">Data Analyst</div>
-            <div class="job-desc">Analyze insights for business growth.</div>
+            <div class="job-title">Landscaper/Gardener</div>
+            <div class="job-desc">Make fertilizer and keep properties/plants happy and healthy.</div>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -539,20 +566,16 @@
       <div class="featured-slider">
         <div class="slider-track">
           <div class="job-card">
-            <div class="job-title">AI Researcher</div>
-            <div class="job-desc">Explore cutting-edge AI in supply chain.</div>
+            <div class="job-title">Auto Sales</div>
+            <div class="job-desc">List, negotiate, and sell cars/trucks.</div>
           </div>
           <div class="job-card">
-            <div class="job-title">Video Producer</div>
+            <div class="job-title">Youtuber</div>
             <div class="job-desc">Create engaging content for brands.</div>
           </div>
           <div class="job-card">
-            <div class="job-title">Operations Specialist</div>
-            <div class="job-desc">Streamline services and strategies.</div>
-          </div>
-          <div class="job-card">
-            <div class="job-title">Data Analyst</div>
-            <div class="job-desc">Analyze insights for business growth.</div>
+            <div class="job-title">Landscaper/Gardener</div>
+            <div class="job-desc">Make fertilizer and keep properties/plants happy and healthy.</div>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -694,6 +717,30 @@
         track.style.transform = `translateX(${position}px)`;
       };
     });
+
+    // PBBG Reward System (Subtle Timer and Resource Counter)
+    let resources = 0;
+    let timeLeft = 600; // 10 minutes in seconds
+
+    const resourcesElem = document.getElementById('resources');
+    const timerElem = document.getElementById('timer');
+
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerElem.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+      if (timeLeft > 0) {
+        timeLeft--;
+      } else {
+        resources += 1; // Reward 1 resource
+        resourcesElem.textContent = resources;
+        timeLeft = 600; // Reset timer
+      }
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer(); // Initial update
   </script>
 </body>
 </html>
