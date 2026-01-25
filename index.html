@@ -123,6 +123,7 @@
       cursor: pointer;
     }
 
+    /* Centered Roadmap */
     .roadmap-section {
       width: 100%;
       max-width: 720px;
@@ -187,9 +188,10 @@
       border-bottom: 1px solid #a0d0ff;
     }
 
+    /* Impact Dashboard Styles */
     .impact-section {
       width: 100%;
-      max-width: 900px;
+      max-width: 800px;
       margin: 0 auto;
       padding: 0 20px;
       box-sizing: border-box;
@@ -200,7 +202,7 @@
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: clamp(20px, 4vw, 40px);
       justify-items: center;
-      margin-bottom: 60px;
+      margin-bottom: 40px;
     }
 
     .impact-card {
@@ -232,71 +234,7 @@
       line-height: 1.4;
     }
 
-    .leaderboard-section {
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto 60px;
-      padding: 0 20px;
-      box-sizing: border-box;
-      text-align: center;
-    }
-
-    .leaderboard {
-      margin-top: 20px;
-      border: 1px solid rgba(255,255,255,0.2);
-      backdrop-filter: blur(4px);
-    }
-
-    .leaderboard-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      padding: 18px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      font-size: 1rem;
-      letter-spacing: 0.5px;
-    }
-
-    .leaderboard-row:last-child {
-      border-bottom: none;
-    }
-
-    .leaderboard-name {
-      text-align: left;
-      opacity: 0.9;
-    }
-
-    .leaderboard-amount {
-      font-weight: 300;
-      opacity: 0.85;
-    }
-
-    .leaderboard-row.top {
-      background: linear-gradient(
-        90deg,
-        rgba(255,255,255,0.12),
-        rgba(255,255,255,0.02)
-      );
-      box-shadow: inset 0 0 30px rgba(255,255,255,0.05);
-    }
-
-    .donate-btn {
-      margin-top: 40px;
-      font-size: 1.1rem;
-      letter-spacing: 2px;
-      padding: 14px 40px;
-      border: 1px solid rgba(255,255,255,0.4);
-      background: transparent;
-      color: white;
-      cursor: pointer;
-      transition: all 0.4s ease;
-    }
-
-    .donate-btn:hover {
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 0 40px rgba(255,255,255,0.15);
-      border-color: white;
-    }
-
+    /* Featured Opportunities Slider */
     .featured-section {
       width: 100%;
       max-width: 800px;
@@ -367,6 +305,7 @@
       right: 10px;
     }
 
+    /* Rick modal (unchanged) */
     #rick-modal {
       position: fixed;
       inset: 0;
@@ -410,6 +349,7 @@
 
     iframe { width: 100%; height: 100%; border: none; }
 
+    /* PBBG Reward HUD */
     #reward-hud {
       position: fixed;
       top: 0;
@@ -442,6 +382,7 @@
 <body>
   <canvas id="stars"></canvas>
 
+  <!-- PBBG Reward HUD -->
   <div id="reward-hud">
     <span>Impact: <span id="resources">0</span></span>
     <span>Next Reward In: <span id="timer">1:00</span></span>
@@ -455,13 +396,14 @@
       <div class="choice" id="no">No</div>
     </div>
 
+    <!-- Featured Opportunities -->
     <div class="featured-section">
       <h2>Featured Opportunities</h2>
       <div class="featured-slider">
         <div class="slider-track">
-          <div class="job-card" onclick="window.open('https://forms.gle/1FAIpQLSd-tp0CQtSzkiEUfjDnE6wp60WV9v1EnjnIhZwhvFpEm9ihZQ', '_blank')">
-            <div class="job-title">Fish Breeding</div>
-            <div class="job-desc">Feed, check for diseases, and upload content.</div>
+          <div class="job-card">
+            <div class="job-title">Auto Sales</div>
+            <div class="job-desc">List, negotiate, and sell cars/trucks.</div>
           </div>
           <div class="job-card">
             <div class="job-title">Youtuber</div>
@@ -500,21 +442,18 @@
 
     <div class="submit" id="submit">Continue</div>
 
+    <!-- Featured Opportunities -->
     <div class="featured-section">
       <h2>Featured Opportunities</h2>
       <div class="featured-slider">
         <div class="slider-track">
-          <div class="job-card" onclick="window.open('https://forms.gle/1FAIpQLSd-tp0CQtSzkiEUfjDnE6wp60WV9v1EnjnIhZwhvFpEm9ihZQ', '_blank')">
-            <div class="job-title">Fish Breeding</div>
-            <div class="job-desc">Feed, check for diseases, and upload content.</div>
-          </div>
           <div class="job-card">
-            <div class="job-title">Youtuber</div>
-            <div class="job-desc">Create engaging content for brands.</div>
+            <div class="job-title">Fish Breeder</div>
+            <div class="job-desc">Care for a lot of pretty fish and plants.</div>
           </div>
           <div class="job-card">
             <div class="job-title">Landscaper/Gardener</div>
-            <div class="job-desc">Make fertilizer and keep properties/plants happy and healthy.</div>
+            <div class="job-desc">Keep properties/plants happy and healthy.</div>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -523,7 +462,7 @@
     </div>
   </div>
 
-  <!-- Screen 3 (Roadmap) -->
+  <!-- Investor Dashboard Screen (Roadmap) -->
   <div class="screen" id="screen3">
     <h1>This is an alpha test.</h1>
     <p style="font-size:1.1rem; opacity:0.7; max-width:600px; margin:0 auto 40px; line-height:1.6;">
@@ -543,28 +482,28 @@
           <span class="roadmap-year">2025</span> — Cashflow business gen PoC <span class="roadmap-check">✅</span>
         </div>
         <div class="roadmap-item">
-          <span class="roadmap-year">2026</span> — On-demand hiring/training public launch
+          <span class="roadmap-year">2026</span> — On-demand hiring PoC ✅
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-year">2026</span> — Data hub PoC
         </div>
       </div>
     </div>
 
     <div class="submit" id="continue-to-impact">Continue to Impact</div>
 
+    <!-- Featured Opportunities -->
     <div class="featured-section">
       <h2>Featured Opportunities</h2>
       <div class="featured-slider">
         <div class="slider-track">
-          <div class="job-card" onclick="window.open('https://forms.gle/1FAIpQLSd-tp0CQtSzkiEUfjDnE6wp60WV9v1EnjnIhZwhvFpEm9ihZQ', '_blank')">
-            <div class="job-title">Fish Breeding</div>
-            <div class="job-desc">Feed, check for diseases, and upload content.</div>
-          </div>
           <div class="job-card">
-            <div class="job-title">Youtuber</div>
-            <div class="job-desc">Create engaging content for brands.</div>
+            <div class="job-title">Fish Breeder</div>
+            <div class="job-desc">Care for a lot of pretty fish and plants.</div>
           </div>
           <div class="job-card">
             <div class="job-title">Landscaper/Gardener</div>
-            <div class="job-desc">Make fertilizer and keep properties/plants happy and healthy.</div>
+            <div class="job-desc">Keep properties/plants happy and healthy.</div>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -573,14 +512,14 @@
     </div>
 
     <div class="contact-footer">
-      Email: <a href="mailto:assistance@unprincipled.inc" class="dash-link">assistance@unprincipled.inc</a><br>
+      Investors: <a href="mailto:assistance@unprincipled.inc" class="dash-link">assistance@unprincipled.inc</a><br>
       X: <a href="https://x.com/UnprincipledInc" target="_blank" class="dash-link">@UnprincipledInc</a><br>
       <br>
       <span style="font-size:0.9rem; opacity:0.6;">Last updated: January 22, 2026</span>
     </div>
   </div>
 
-  <!-- Screen 4 (Impact) -->
+  <!-- Impact Page Screen -->
   <div class="screen" id="screen4">
     <h1>Our Impact</h1>
     <p style="font-size:1.1rem; opacity:0.7; max-width:600px; margin:0 auto 40px; line-height:1.6;">
@@ -594,7 +533,7 @@
           <span class="impact-desc">Veterans Housed</span>
         </div>
         <div class="impact-card">
-          <span class="impact-number">2</span>
+          <span class="impact-number">3</span>
           <span class="impact-desc">Gigs Facilitated</span>
         </div>
         <div class="impact-card">
@@ -606,49 +545,28 @@
           <span class="impact-desc">Vehicles Donated</span>
         </div>
         <div class="impact-card">
-          <span class="impact-number">$1923</span>
+          <span class="impact-number">$3247.50</span>
           <span class="impact-desc">Payout per Hour of Video</span>
         </div>
         <div class="impact-card">
-          <span class="impact-number">$1930</span>
+          <span class="impact-number">$1950</span>
           <span class="impact-desc">Funds Raised</span>
         </div>
       </div>
     </div>
 
-    <div class="leaderboard-section">
-      <h2>Top Donors</h2>
-      <div class="leaderboard">
-        <div class="leaderboard-row top">
-          <div class="leaderboard-name">Anonymous</div>
-          <div class="leaderboard-amount">$1,750</div>
-        </div>
-        <div class="leaderboard-row">
-          <div class="leaderboard-name">Anonymous</div>
-          <div class="leaderboard-amount">$261</div>
-        </div>
-      </div>
-
-      <button class="donate-btn" onclick="alert('Donation flow coming soon!')">
-        Donate
-      </button>
-    </div>
-
+    <!-- Featured Opportunities -->
     <div class="featured-section">
       <h2>Featured Opportunities</h2>
       <div class="featured-slider">
         <div class="slider-track">
-          <div class="job-card" onclick="window.open('https://forms.gle/1FAIpQLSd-tp0CQtSzkiEUfjDnE6wp60WV9v1EnjnIhZwhvFpEm9ihZQ', '_blank')">
-            <div class="job-title">Fish Breeding</div>
-            <div class="job-desc">Feed, check for diseases, and upload content.</div>
-          </div>
           <div class="job-card">
-            <div class="job-title">Youtuber</div>
-            <div class="job-desc">Create engaging content for brands.</div>
+            <div class="job-title">Fish Breeder</div>
+            <div class="job-desc">Care for a lot of pretty fish and plants.</div>
           </div>
           <div class="job-card">
             <div class="job-title">Landscaper/Gardener</div>
-            <div class="job-desc">Make fertilizer and keep properties/plants happy and healthy.</div>
+            <div class="job-desc">Keep properties/plants happy and healthy.</div>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -657,14 +575,14 @@
     </div>
 
     <div class="contact-footer">
-      Email: <a href="mailto:assistance@unprincipled.inc" class="dash-link">assistance@unprincipled.inc</a><br>
+      Investors: <a href="mailto:assistance@unprincipled.inc" class="dash-link">assistance@unprincipled.inc</a><br>
       X: <a href="https://x.com/UnprincipledInc" target="_blank" class="dash-link">@UnprincipledInc</a><br>
       <br>
       <span style="font-size:0.9rem; opacity:0.6;">Last updated: January 22, 2026</span>
     </div>
   </div>
 
-  <!-- Rickroll Modal -->
+  <!-- Rick Modal -->
   <div id="rick-modal">
     <div class="rick-container">
       <div class="close-btn">×</div>
@@ -720,7 +638,7 @@
     }
     animateStars();
 
-    // Screen navigation
+    // Screen logic
     const screens = {
       s1: document.getElementById("screen1"),
       s2: document.getElementById("screen2"),
@@ -733,7 +651,7 @@
       setTimeout(() => screens.s2.classList.add("active"), 900);
     };
 
-    // Rickroll trigger
+    // Rick roll
     const rickModal = document.getElementById("rick-modal");
     document.getElementById("no").onclick = () => rickModal.classList.add("active");
     rickModal.onclick = () => rickModal.classList.remove("active");
@@ -752,27 +670,29 @@
       };
     });
 
-    // Submit from screen 2 → screen 3
+    // Submit → roadmap screen
     document.getElementById("submit").onclick = () => {
       const interests = document.getElementById("interests").value.trim();
+
       if (!selectedRole) return alert("Please select a role.");
       if (!interests) return alert("Please tell us about your interests/passions.");
+
       screens.s2.classList.remove("active");
       setTimeout(() => screens.s3.classList.add("active"), 900);
     };
 
-    // Continue from roadmap → impact
+    // Continue to impact from roadmap
     document.getElementById("continue-to-impact").onclick = () => {
       screens.s3.classList.remove("active");
       setTimeout(() => screens.s4.classList.add("active"), 900);
     };
 
-    // Slider controls (all instances)
+    // Slider logic for all sliders
     document.querySelectorAll('.featured-slider').forEach(slider => {
       const track = slider.querySelector('.slider-track');
       const prevBtn = slider.querySelector('.prev-btn');
       const nextBtn = slider.querySelector('.next-btn');
-      const cardWidth = slider.querySelector('.job-card').offsetWidth + 20;
+      const cardWidth = slider.querySelector('.job-card').offsetWidth + 20; // width + margin
       let position = 0;
 
       nextBtn.onclick = () => {
@@ -789,9 +709,9 @@
       };
     });
 
-    // Reward timer
+    // PBBG Reward System (Subtle Timer and Resource Counter)
     let resources = 0;
-    let timeLeft = 60;
+    let timeLeft = 60; // 10 minutes in seconds
 
     const resourcesElem = document.getElementById('resources');
     const timerElem = document.getElementById('timer');
@@ -804,14 +724,14 @@
       if (timeLeft > 0) {
         timeLeft--;
       } else {
-        resources += 1;
+        resources += 1; // Reward 1 resource
         resourcesElem.textContent = resources;
-        timeLeft = 60;
+        timeLeft = 60; // Reset timer
       }
     }
 
     setInterval(updateTimer, 1000);
-    updateTimer();
+    updateTimer(); // Initial update
   </script>
 </body>
 </html>
