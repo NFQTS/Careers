@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Brand Launchpad — Alpha</title>
+  <title>Brand Launchpad — Unprincipled Inc.</title>
   <style>
     html, body {
       margin: 0;
@@ -11,280 +11,121 @@
       background: black;
       color: white;
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      overflow: hidden;
       height: 100%;
+      overflow-y: auto;
     }
 
     canvas {
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 0;
+      z-index: -1;
       pointer-events: none;
     }
 
-    .screen {
-      position: absolute;
-      inset: 0;
+    .container {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
       text-align: center;
-      opacity: 0;
-      transform: scale(1.02);
-      transition: opacity 1s ease, transform 1s ease;
-      z-index: 1;
-      pointer-events: none;
-      overflow-y: auto;
-    }
-
-    .screen.active {
-      opacity: 1;
-      transform: scale(1);
-      pointer-events: auto;
+      padding: 40px 20px;
+      box-sizing: border-box;
     }
 
     h1 {
       font-weight: 300;
-      letter-spacing: 1.2px;
-      font-size: clamp(1.8rem, 5vw, 2.4rem);
-      margin-bottom: 20px;
+      letter-spacing: 1.5px;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      margin: 0 0 30px;
     }
 
-    h2 {
-      font-weight: 300;
-      font-size: clamp(1.4rem, 4vw, 1.8rem);
-      letter-spacing: 1px;
-      margin: 40px 0 30px;
+    .choices {
+      display: flex;
+      gap: 80px;
+      justify-content: center;
+      margin: 40px 0 60px;
+    }
+
+    .choice {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: 200;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    .choice:hover {
+      transform: translateY(-8px) scale(1.05);
       opacity: 0.9;
     }
 
-    .choices, .types {
-      display: flex;
-      gap: clamp(40px, 8vw, 80px);
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 40px;
-    }
-
-    .choice, .type-card {
-      font-size: clamp(1.3rem, 4vw, 1.5rem);
-      font-weight: 200;
-      letter-spacing: 2px;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.4s ease;
-    }
-
-    .choice:hover, .type-card:hover {
-      transform: translateY(-6px) scale(1.03);
-      opacity: 0.92;
-    }
-
-    .type-card {
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: clamp(24px, 5vw, 36px) clamp(20px, 4vw, 28px);
-      width: clamp(180px, 38vw, 240px);
-      backdrop-filter: blur(4px);
-    }
-
-    .type-card.selected {
-      border-color: white;
-      box-shadow: 0 0 40px rgba(255,255,255,0.12);
-    }
-
-    .type-title { font-size: clamp(1.1rem, 3vw, 1.35rem); margin-bottom: 8px; }
-    .type-sub   { font-size: clamp(0.8rem, 2vw, 0.9rem);  opacity: 0.65; }
-
-    textarea {
-      width: clamp(320px, 80vw, 500px);
-      height: 110px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.3);
-      color: white;
-      font-size: 1rem;
-      padding: 14px;
-      margin: 20px 0 30px;
-      resize: none;
-      outline: none;
-      transition: border 0.4s, box-shadow 0.4s;
-    }
-
-    textarea:focus {
-      border-color: white;
-      box-shadow: 0 0 20px rgba(255,255,255,0.08);
-    }
-
-    .submit {
-      font-size: 1.2rem;
-      letter-spacing: 2.2px;
-      margin-top: 30px;
-      cursor: pointer;
-    }
-
-    /* Centered Roadmap */
-    .roadmap-section {
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 20px;
-      box-sizing: border-box;
-    }
-
-    .roadmap {
-      text-align: left;
-      display: inline-block;
-      width: 100%;
-    }
-
-    .roadmap-item {
-      position: relative;
-      padding-left: 48px;
-      margin: 32px 0;
-      font-size: clamp(1.05rem, 2.8vw, 1.15rem);
-      line-height: 1.5;
-    }
-
-    .roadmap-item::before {
-      content: "→";
-      position: absolute;
-      left: 12px;
-      top: 2px;
-      color: rgba(255,255,255,0.7);
-      font-weight: bold;
+    .hire-section {
+      max-width: 700px;
+      margin: 40px auto;
       font-size: 1.3rem;
+      line-height: 1.6;
+      opacity: 0.9;
+      display: none;
     }
 
-    .roadmap-year {
-      font-weight: 400;
-      color: white;
-      opacity: 1;
+    .hire-section.active {
+      display: block;
+    }
+
+    .hire-btn {
       display: inline-block;
-      min-width: 80px;
-    }
-
-    .roadmap-check {
-      color: #55ff99;
-      margin-left: 8px;
-      font-weight: bold;
-    }
-
-    .contact-footer {
-      margin-top: 80px;
-      font-size: 1rem;
-      opacity: 0.7;
-      line-height: 1.7;
-    }
-
-    .dash-link {
-      color: #a0d0ff;
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: border-bottom 0.3s;
-    }
-
-    .dash-link:hover {
-      border-bottom: 1px solid #a0d0ff;
-    }
-
-    /* Portfolio Dashboard Styles */
-    .portfolio-section {
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 20px;
-      box-sizing: border-box;
-    }
-
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: clamp(24px, 4vw, 40px);
-      justify-items: center;
-      margin-bottom: 40px;
-    }
-
-    .brand-card {
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 16px;
-      padding: 32px 24px;
-      width: 100%;
-      max-width: 340px;
-      text-align: center;
-      backdrop-filter: blur(8px);
-      background: rgba(255,255,255,0.03);
-      transition: all 0.4s ease;
-      min-height: 360px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-sizing: border-box;
-    }
-
-    .brand-card:hover {
-      transform: translateY(-12px) scale(1.04);
-      box-shadow: 0 20px 60px rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.4);
-    }
-
-    .brand-logo {
-      width: 140px;
-      height: 140px;
-      margin: 0 auto 24px;
-      object-fit: contain;
-      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.5));
-      border-radius: 16px;
-      background: rgba(255,255,255,0.05);
-      padding: 16px;
-    }
-
-    .brand-name {
-      font-size: clamp(1.5rem, 4vw, 1.9rem);
-      font-weight: 300;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-    }
-
-    .brand-desc {
-      font-size: clamp(1rem, 2.4vw, 1.15rem);
-      opacity: 0.85;
-      line-height: 1.5;
-      margin-bottom: 24px;
-    }
-
-    .brand-link {
-      display: inline-block;
-      padding: 14px 40px;
-      font-size: 1.15rem;
-      letter-spacing: 1.5px;
+      margin-top: 30px;
+      padding: 16px 48px;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
       color: white;
-      background: linear-gradient(135deg, #444, #222);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: linear-gradient(135deg, #333, #111);
+      border: 1px solid rgba(255,255,255,0.25);
       border-radius: 50px;
       text-decoration: none;
       transition: all 0.3s ease;
     }
 
-    .brand-link:hover {
-      background: linear-gradient(135deg, #666, #444);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 35px rgba(255,255,255,0.12);
+    .hire-btn:hover {
+      background: linear-gradient(135deg, #555, #333);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(255,255,255,0.1);
     }
 
-    /* Enhanced Featured Slider */
+    /* Brands Launched Counter */
+    #brands-counter {
+      margin: 20px 0 60px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
+      padding: 20px 50px;
+      border-radius: 60px;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      font-weight: 300;
+      letter-spacing: 1.8px;
+      box-shadow: 0 10px 50px rgba(0,0,0,0.7);
+    }
+
+    #brands-counter strong {
+      color: #99ffbb;
+      font-weight: 400;
+    }
+
+    /* Featured Brands Slider */
     .featured-section {
       width: 100%;
-      max-width: 1000px;
-      margin: 60px auto;
+      max-width: 1100px;
+      margin: 60px auto 0;
       padding: 0 20px;
-      box-sizing: border-box;
     }
 
     .featured-slider {
       position: relative;
       overflow: hidden;
-      margin-top: 30px;
     }
 
     .slider-track {
@@ -293,59 +134,54 @@
     }
 
     .launch-card {
-      flex: 0 0 clamp(280px, 35vw, 360px);
+      flex: 0 0 clamp(300px, 38vw, 380px);
       border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 16px;
-      padding: 32px 24px;
-      margin-right: 24px;
+      border-radius: 20px;
+      padding: 40px 28px;
+      margin-right: 28px;
       text-align: center;
-      backdrop-filter: blur(8px);
-      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.02);
       transition: all 0.4s ease;
-      cursor: pointer;
+      min-height: 380px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 340px;
-      box-sizing: border-box;
     }
 
     .launch-card:hover {
-      transform: translateY(-12px) scale(1.04);
-      box-shadow: 0 20px 60px rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.4);
+      transform: translateY(-14px) scale(1.04);
+      box-shadow: 0 25px 70px rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.45);
     }
 
     .launch-logo {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 20px;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 28px;
       object-fit: contain;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
-      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      padding: 18px;
+      filter: drop-shadow(0 6px 18px rgba(0,0,0,0.5));
     }
 
     .launch-title {
-      font-size: clamp(1.4rem, 3.5vw, 1.7rem);
+      font-size: clamp(1.6rem, 4vw, 2rem);
       font-weight: 300;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .launch-desc {
-      font-size: clamp(0.95rem, 2.2vw, 1.1rem);
-      opacity: 0.75;
+      font-size: 1.1rem;
+      opacity: 0.8;
       line-height: 1.5;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     .cta-btn {
-      display: inline-block;
-      padding: 12px 32px;
-      font-size: 1.1rem;
-      letter-spacing: 1.5px;
+      padding: 14px 40px;
+      font-size: 1.15rem;
       color: white;
       background: linear-gradient(135deg, #444, #222);
       border: 1px solid rgba(255,255,255,0.2);
@@ -356,8 +192,8 @@
 
     .cta-btn:hover {
       background: linear-gradient(135deg, #666, #444);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(255,255,255,0.1);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 40px rgba(255,255,255,0.12);
     }
 
     .slider-btn {
@@ -367,44 +203,17 @@
       background: transparent;
       border: none;
       color: white;
-      font-size: 2.8rem;
+      font-size: 3rem;
       cursor: pointer;
-      opacity: 0.6;
+      opacity: 0.5;
       transition: opacity 0.3s;
     }
 
-    .slider-btn:hover {
-      opacity: 1;
-    }
+    .slider-btn:hover { opacity: 1; }
+    .prev-btn { left: 0; }
+    .next-btn { right: 0; }
 
-    .prev-btn { left: 10px; }
-    .next-btn { right: 10px; }
-
-    /* Brands Launched Counter - Prominent */
-    #brands-counter {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(10px);
-      padding: 16px 40px;
-      border-radius: 60px;
-      border: 1px solid rgba(255,255,255,0.25);
-      font-size: 1.4rem;
-      font-weight: 300;
-      letter-spacing: 1.5px;
-      z-index: 10;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
-      white-space: nowrap;
-    }
-
-    #brands-counter strong {
-      color: #88ffaa;
-      font-weight: 400;
-    }
-
-    /* Rick modal */
+    /* Rick Modal */
     #rick-modal {
       position: fixed;
       inset: 0;
@@ -414,7 +223,7 @@
       justify-content: center;
       z-index: 100;
       cursor: pointer;
-      padding: 2vh 2vw;
+      padding: 20px;
     }
 
     #rick-modal.active { display: flex; }
@@ -423,179 +232,86 @@
       position: relative;
       width: 90vw;
       max-width: 90vh;
-      max-height: 80vh;
       aspect-ratio: 16 / 9;
-      margin: auto;
-      box-shadow: 0 0 60px rgba(255,255,255,0.15);
-    }
-
-    @supports not (aspect-ratio: 16 / 9) {
-      .rick-container { padding-top: 56.25%; }
-      .rick-container iframe { position: absolute; inset: 0; }
+      box-shadow: 0 0 80px rgba(255,255,255,0.2);
     }
 
     .close-btn {
       position: absolute;
-      top: -2.8rem;
+      top: -40px;
       right: 0;
-      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-size: 3rem;
       cursor: pointer;
       opacity: 0.8;
-      transition: opacity 0.3s;
     }
 
     .close-btn:hover { opacity: 1; }
 
     iframe { width: 100%; height: 100%; border: none; }
+
+    .footer {
+      margin-top: 100px;
+      font-size: 1rem;
+      opacity: 0.6;
+      text-align: center;
+    }
+
+    .dash-link {
+      color: #a0d0ff;
+      text-decoration: none;
+    }
+
+    .dash-link:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
   <canvas id="stars"></canvas>
 
-  <!-- Prominent Brands Launched Counter -->
-  <div id="brands-counter">
-    <strong>12</strong> Brands Launched & Counting
-  </div>
+  <div class="container">
+    <div id="brands-counter">
+      <strong>4+ Brands Launched</strong> — Real Results, Real Revenue
+    </div>
 
-  <!-- Screen 1 -->
-  <div class="screen active" id="screen1">
     <h1>Are you ready to launch a brand right now?</h1>
+
     <div class="choices">
       <div class="choice" id="yes">Yes</div>
       <div class="choice" id="no">No</div>
     </div>
 
+    <div id="hire-section" class="hire-section">
+      <p>Great. We build high-quality, revenue-focused brands quickly and discreetly.</p>
+      <p>Our portfolio demonstrates proven execution across niches. Let's discuss your vision and turn it into a live, monetizable brand.</p>
+      <a href="mailto:assistance@unprincipled.inc?subject=Brand%20Launch%20Inquiry" class="hire-btn">Hire Us → assistance@unprincipled.inc</a>
+    </div>
+
     <div class="featured-section">
-      <h2>Featured Brands</h2>
+      <h2>Our Launched Brands</h2>
       <div class="featured-slider">
         <div class="slider-track">
           <div class="launch-card">
-            <img src="https://via.placeholder.com/120/333/fff?text=EcoDrive" alt="EcoDrive Logo" class="launch-logo">
-            <div class="launch-title">EcoDrive</div>
-            <div class="launch-desc">Sustainable mobility reimagined — electric & eco-conscious vehicles.</div>
-            <a href="https://ecodrive.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
+            <img src="https://via.placeholder.com/140/0a5/fff?text=GTLAquatics" alt="GTLAquatics Logo" class="launch-logo">
+            <div class="launch-title">GTLAquatics</div>
+            <div class="launch-desc">Premium fish breeding & aquatic ecosystems</div>
+            <a href="https://gtlaquatics.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
           <div class="launch-card">
-            <img src="https://via.placeholder.com/120/444/fff?text=VidBoost" alt="VidBoost Logo" class="launch-logo">
-            <div class="launch-title">VidBoost</div>
-            <div class="launch-desc">AI-powered video creation & brand amplification tools.</div>
-            <a href="https://vidboost.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
+            <img src="https://via.placeholder.com/140/333/fff?text=Nfqts" alt="Nfqts Logo" class="launch-logo">
+            <div class="launch-title">Nfqts</div>
+            <div class="launch-desc">Contemporary digital & physical art collections</div>
+            <a href="https://nfqts.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
           <div class="launch-card">
-            <img src="https://via.placeholder.com/120/555/fff?text=GreenThumb" alt="GreenThumb Logo" class="launch-logo">
-            <div class="launch-title">GreenThumb</div>
-            <div class="launch-desc">Smart organic gardening for modern urban lifestyles.</div>
-            <a href="https://greenthumb.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
+            <img src="https://via.placeholder.com/140/555/fff?text=Unprincipled+Modeling" alt="Unprincipled Modeling Logo" class="launch-logo">
+            <div class="launch-title">Unprincipled Modeling</div>
+            <div class="launch-desc">Avant-garde fashion & modeling agency</div>
+            <a href="https://unprincipledmodeling.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
           <div class="launch-card">
-            <img src="https://via.placeholder.com/120/2a9/fff?text=AquaLife" alt="AquaLife Logo" class="launch-logo">
-            <div class="launch-title">AquaLife</div>
-            <div class="launch-desc">Premium aquatic ecosystems & fish breeding solutions.</div>
-            <a href="https://aqualife.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
-          </div>
-        </div>
-        <button class="slider-btn prev-btn">←</button>
-        <button class="slider-btn next-btn">→</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Screen 2 -->
-  <div class="screen" id="screen2">
-    <h1>Select your brand type</h1>
-    <div class="types">
-      <div class="type-card" data-type="Product">
-        <div class="type-title">Product</div>
-        <div class="type-sub">Tangible • Innovative • Scalable</div>
-      </div>
-      <div class="type-card" data-type="Digital">
-        <div class="type-title">Digital</div>
-        <div class="type-sub">Software • Content • Online</div>
-      </div>
-      <div class="type-card" data-type="Service">
-        <div class="type-title">Service</div>
-        <div class="type-sub">Consulting • Support • Delivery</div>
-      </div>
-    </div>
-
-    <textarea id="ideas" placeholder="Describe your brand ideas, target market, unique value..."></textarea>
-
-    <div class="submit" id="submit">Continue</div>
-
-    <div class="featured-section">
-      <h2>Featured Brands</h2>
-      <div class="featured-slider">
-        <div class="slider-track">
-          <div class="launch-card">
-            <img src="https://via.placeholder.com/120/2a9/fff?text=AquaLife" alt="AquaLife Logo" class="launch-logo">
-            <div class="launch-title">AquaLife</div>
-            <div class="launch-desc">Premium aquatic ecosystems & fish breeding solutions.</div>
-            <a href="https://aqualife.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
-          </div>
-          <div class="launch-card">
-            <img src="https://via.placeholder.com/120/6a9/fff?text=BloomCare" alt="BloomCare Logo" class="launch-logo">
-            <div class="launch-title">BloomCare</div>
-            <div class="launch-desc">Smart landscaping & plant care services.</div>
-            <a href="https://bloomcare.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
-          </div>
-          <div class="launch-card">
-            <img src="https://via.placeholder.com/120/777/fff?text=NexGen" alt="NexGen Logo" class="launch-logo">
-            <div class="launch-title">NexGen</div>
-            <div class="launch-desc">Next-generation tech accessories & tools.</div>
-            <a href="https://nexgen.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
-          </div>
-        </div>
-        <button class="slider-btn prev-btn">←</button>
-        <button class="slider-btn next-btn">→</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Roadmap Screen -->
-  <div class="screen" id="screen3">
-    <h1>This is an alpha test.</h1>
-    <p style="font-size:1.1rem; opacity:0.7; max-width:600px; margin:0 auto 40px; line-height:1.6;">
-      We're incubating brands at warp speed. Launches happen frequently.
-    </p>
-
-    <div class="roadmap-section">
-      <h2>Roadmap</h2>
-      <div class="roadmap">
-        <div class="roadmap-item">
-          <span class="roadmap-year">2023</span> — AI Brand Ideation PoC <span class="roadmap-check">✅</span>
-        </div>
-        <div class="roadmap-item">
-          <span class="roadmap-year">2024</span> — Automated Branding Tech PoC <span class="roadmap-check">✅</span>
-        </div>
-        <div class="roadmap-item">
-          <span class="roadmap-year">2025</span> — Market Launch Automation PoC <span class="roadmap-check">✅</span>
-        </div>
-        <div class="roadmap-item">
-          <span class="roadmap-year">2026</span> — On-Demand Incubation PoC ✅
-        </div>
-        <div class="roadmap-item">
-          <span class="roadmap-year">2026</span> — Brand Ecosystem Hub PoC
-        </div>
-      </div>
-    </div>
-
-    <div class="submit" id="continue-to-portfolio">Continue to Portfolio</div>
-
-    <div class="featured-section">
-      <h2>Featured Brands</h2>
-      <div class="featured-slider">
-        <div class="slider-track">
-          <div class="launch-card">
-            <img src="https://via.placeholder.com/120/2a9/fff?text=AquaLife" alt="AquaLife Logo" class="launch-logo">
-            <div class="launch-title">AquaLife</div>
-            <div class="launch-desc">Premium aquatic ecosystems & fish breeding solutions.</div>
-            <a href="https://aqualife.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
-          </div>
-          <div class="launch-card">
-            <img src="https://via.placeholder.com/120/6a9/fff?text=BloomCare" alt="BloomCare Logo" class="launch-logo">
-            <div class="launch-title">BloomCare</div>
-            <div class="launch-desc">Smart landscaping & plant care services.</div>
-            <a href="https://bloomcare.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
+            <img src="https://via.placeholder.com/140/777/fff?text=GTLAuto" alt="GTLAuto Logo" class="launch-logo">
+            <div class="launch-title">GTLAuto</div>
+            <div class="launch-desc">Expert car restoration & custom builds</div>
+            <a href="https://gtlauto.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -603,89 +319,9 @@
       </div>
     </div>
 
-    <div class="contact-footer">
-      Partners: <a href="mailto:assistance@unprincipled.inc" class="dash-link">assistance@unprincipled.inc</a><br>
-      X: <a href="https://x.com/UnprincipledInc" target="_blank" class="dash-link">@UnprincipledInc</a><br>
-      <br>
-      <span style="font-size:0.9rem; opacity:0.6;">Last updated: January 28, 2026</span>
-    </div>
-  </div>
-
-  <!-- Portfolio Screen -->
-  <div class="screen" id="screen4">
-    <h1>Our Portfolio</h1>
-    <p style="font-size:1.1rem; opacity:0.7; max-width:600px; margin:0 auto 40px; line-height:1.6;">
-      High-quality brands we've launched. See our work and get in touch for premium assistance.
-    </p>
-
-    <div class="portfolio-section">
-      <div class="portfolio-grid">
-        <div class="brand-card">
-          <img src="https://via.placeholder.com/140/333/fff?text=EcoDrive" alt="EcoDrive Logo" class="brand-logo">
-          <div class="brand-name">EcoDrive</div>
-          <div class="brand-desc">Sustainable mobility reimagined — electric & eco-conscious vehicles.</div>
-          <a href="https://ecodrive.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
-        </div>
-        <div class="brand-card">
-          <img src="https://via.placeholder.com/140/444/fff?text=VidBoost" alt="VidBoost Logo" class="brand-logo">
-          <div class="brand-name">VidBoost</div>
-          <div class="brand-desc">AI-powered video creation & brand amplification tools.</div>
-          <a href="https://vidboost.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
-        </div>
-        <div class="brand-card">
-          <img src="https://via.placeholder.com/140/555/fff?text=GreenThumb" alt="GreenThumb Logo" class="brand-logo">
-          <div class="brand-name">GreenThumb</div>
-          <div class="brand-desc">Smart organic gardening for modern urban lifestyles.</div>
-          <a href="https://greenthumb.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
-        </div>
-        <div class="brand-card">
-          <img src="https://via.placeholder.com/140/2a9/fff?text=AquaLife" alt="AquaLife Logo" class="brand-logo">
-          <div class="brand-name">AquaLife</div>
-          <div class="brand-desc">Premium aquatic ecosystems & fish breeding solutions.</div>
-          <a href="https://aqualife.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
-        </div>
-        <div class="brand-card">
-          <img src="https://via.placeholder.com/140/6a9/fff?text=BloomCare" alt="BloomCare Logo" class="brand-logo">
-          <div class="brand-name">BloomCare</div>
-          <div class="brand-desc">Smart landscaping & plant care services.</div>
-          <a href="https://bloomcare.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
-        </div>
-        <div class="brand-card">
-          <img src="https://via.placeholder.com/140/777/fff?text=NexGen" alt="NexGen Logo" class="brand-logo">
-          <div class="brand-name">NexGen</div>
-          <div class="brand-desc">Next-generation tech accessories & tools.</div>
-          <a href="https://nexgen.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="featured-section">
-      <h2>More Featured Brands</h2>
-      <div class="featured-slider">
-        <div class="slider-track">
-          <div class="launch-card">
-            <img src="https://via.placeholder.com/120/888/fff?text=PeakPulse" alt="PeakPulse Logo" class="launch-logo">
-            <div class="launch-title">PeakPulse</div>
-            <div class="launch-desc">Performance fitness & recovery gear.</div>
-            <a href="https://peakpulse.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
-          </div>
-          <div class="launch-card">
-            <img src="https://via.placeholder.com/120/999/fff?text=ForgeLabs" alt="ForgeLabs Logo" class="launch-logo">
-            <div class="launch-title">ForgeLabs</div>
-            <div class="launch-desc">Custom hardware prototyping & manufacturing.</div>
-            <a href="https://forgelabs.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
-          </div>
-        </div>
-        <button class="slider-btn prev-btn">←</button>
-        <button class="slider-btn next-btn">→</button>
-      </div>
-    </div>
-
-    <div class="contact-footer">
-      For Assistance: <a href="mailto:assistance@unprincipled.inc" class="dash-link">assistance@unprincipled.inc</a><br>
-      X: <a href="https://x.com/UnprincipledInc" target="_blank" class="dash-link">@UnprincipledInc</a><br>
-      <br>
-      <span style="font-size:0.9rem; opacity:0.6;">Last updated: January 28, 2026</span>
+    <div class="footer">
+      Unprincipled Inc. • <a href="mailto:assistance@unprincipled.inc" class="dash-link">assistance@unprincipled.inc</a><br>
+      X: <a href="https://x.com/UnprincipledInc" target="_blank" class="dash-link">@UnprincipledInc</a>
     </div>
   </div>
 
@@ -702,7 +338,7 @@
   </div>
 
   <script>
-    // STARFIELD
+    // Starfield
     const canvas = document.getElementById("stars");
     const ctx = canvas.getContext("2d");
     let width, height, stars = [];
@@ -716,12 +352,12 @@
 
     function createStars() {
       stars = [];
-      for (let i = 0; i < 160; i++) {
+      for (let i = 0; i < 180; i++) {
         stars.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          radius: Math.random() * 1.2 + 0.3,
-          speed: Math.random() * 0.4 + 0.08,
+          radius: Math.random() * 1.3 + 0.4,
+          speed: Math.random() * 0.5 + 0.1,
           alpha: Math.random() * 0.7 + 0.3
         });
       }
@@ -745,84 +381,51 @@
     }
     animateStars();
 
-    // Screen logic
-    const screens = {
-      s1: document.getElementById("screen1"),
-      s2: document.getElementById("screen2"),
-      s3: document.getElementById("screen3"),
-      s4: document.getElementById("screen4")
-    };
-
-    document.getElementById("yes").onclick = () => {
-      screens.s1.classList.remove("active");
-      setTimeout(() => screens.s2.classList.add("active"), 900);
-    };
-
-    // Rick roll
+    // Interactions
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
+    const hireSection = document.getElementById("hire-section");
     const rickModal = document.getElementById("rick-modal");
-    document.getElementById("no").onclick = () => rickModal.classList.add("active");
+
+    yesBtn.onclick = () => {
+      hireSection.classList.add("active");
+      window.scrollTo({ top: hireSection.offsetTop - 100, behavior: 'smooth' });
+    };
+
+    noBtn.onclick = () => rickModal.classList.add("active");
+
     rickModal.onclick = () => rickModal.classList.remove("active");
     rickModal.querySelector(".close-btn").onclick = e => {
       e.stopPropagation();
       rickModal.classList.remove("active");
     };
 
-    // Type selection
-    let selectedType = null;
-    document.querySelectorAll(".type-card").forEach(card => {
-      card.onclick = () => {
-        document.querySelectorAll(".type-card").forEach(c => c.classList.remove("selected"));
-        card.classList.add("selected");
-        selectedType = card.dataset.type;
+    // Slider
+    const slider = document.querySelector('.featured-slider');
+    const track = slider.querySelector('.slider-track');
+    const prevBtn = slider.querySelector('.prev-btn');
+    const nextBtn = slider.querySelector('.next-btn');
+    let position = 0;
+
+    function updateSlider() {
+      const cardWidth = track.querySelector('.launch-card').offsetWidth + 28;
+      const maxPosition = - (track.children.length - 1) * cardWidth;
+
+      nextBtn.onclick = () => {
+        position -= cardWidth;
+        if (position < maxPosition) position = maxPosition;
+        track.style.transform = `translateX(${position}px)`;
       };
-    });
 
-    // Submit → roadmap screen
-    document.getElementById("submit").onclick = () => {
-      const ideas = document.getElementById("ideas").value.trim();
+      prevBtn.onclick = () => {
+        position += cardWidth;
+        if (position > 0) position = 0;
+        track.style.transform = `translateX(${position}px)`;
+      };
+    }
 
-      if (!selectedType) return alert("Please select a brand type.");
-      if (!ideas) return alert("Please describe your brand ideas.");
-
-      screens.s2.classList.remove("active");
-      setTimeout(() => screens.s3.classList.add("active"), 900);
-    };
-
-    // Continue to portfolio
-    document.getElementById("continue-to-portfolio").onclick = () => {
-      screens.s3.classList.remove("active");
-      setTimeout(() => screens.s4.classList.add("active"), 900);
-    };
-
-    // Slider logic
-    document.querySelectorAll('.featured-slider').forEach(slider => {
-      const track = slider.querySelector('.slider-track');
-      const prevBtn = slider.querySelector('.prev-btn');
-      const nextBtn = slider.querySelector('.next-btn');
-      let position = 0;
-
-      function update() {
-        const card = slider.querySelector('.launch-card');
-        if (!card) return;
-        const cardWidth = card.offsetWidth + 24; // margin-right
-        const maxPosition = - (track.children.length - 1) * cardWidth;
-
-        nextBtn.onclick = () => {
-          position -= cardWidth;
-          if (position < maxPosition) position = maxPosition;
-          track.style.transform = `translateX(${position}px)`;
-        };
-
-        prevBtn.onclick = () => {
-          position += cardWidth;
-          if (position > 0) position = 0;
-          track.style.transform = `translateX(${position}px)`;
-        };
-      }
-
-      update();
-      window.addEventListener('resize', update);
-    });
+    updateSlider();
+    window.addEventListener('resize', updateSlider);
   </script>
 </body>
 </html>
