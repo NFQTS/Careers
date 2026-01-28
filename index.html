@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Brand Launchpad: Unprincipled Inc.</title>
   <style>
     :root {
@@ -12,26 +12,19 @@
       --blur: blur(16px);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
     html, body {
       margin: 0;
       padding: 0;
       background: #000;
       color: #fff;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
+      font-family: 'Inter', -apple-system, BlinkMacOS, 'Segoe UI', Roboto, sans-serif;
+      height: 100%;
+      overflow-y: auto;
     }
 
     canvas {
       position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
       z-index: -2;
       pointer-events: none;
     }
@@ -43,29 +36,20 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       text-align: center;
       padding: 5vh 5vw;
-      max-width: 100%;
     }
 
     h1 {
       font-weight: 300;
       letter-spacing: 0.15em;
-      font-size: clamp(2.5rem, 10vw, 5.5rem);
-      margin: 0 0 2rem;
+      font-size: clamp(2.8rem, 8vw, 5rem);
+      margin: 0 0 1.5rem;
       background: linear-gradient(90deg, #fff, var(--neon), #fff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: glow 6s ease-in-out infinite alternate;
-    }
-
-    h2 {
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      font-size: clamp(2rem, 6vw, 3rem);
-      margin: 0 0 2rem;
-      color: var(--neon);
-      text-shadow: 0 0 10px rgba(0, 255, 234, 0.4);
     }
 
     @keyframes glow {
@@ -75,24 +59,21 @@
 
     .choices {
       display: flex;
-      flex-wrap: wrap;
-      gap: clamp(2rem, 10vw, 8rem);
-      margin: 2rem 0 4rem;
-      justify-content: center;
+      gap: clamp(4rem, 12vw, 10rem);
+      margin: 3rem 0 5rem;
     }
 
     .choice {
-      font-size: clamp(2rem, 8vw, 4rem);
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
       font-weight: 200;
       letter-spacing: 0.2em;
       cursor: pointer;
-      padding: 1rem 2.5rem;
+      padding: 1rem 2rem;
       border-radius: 1.5rem;
       background: var(--glass-bg);
       backdrop-filter: var(--blur);
       border: 1px solid rgba(255,255,255,0.12);
       transition: all 0.5s cubic-bezier(0.23,1,0.32,1);
-      white-space: nowrap;
     }
 
     .choice:hover {
@@ -102,17 +83,16 @@
     }
 
     .hire-section {
-      width: 100%;
-      max-width: 900px;
+      max-width: 800px;
       margin: 4rem auto 0;
-      font-size: clamp(1.2rem, 3vw, 1.4rem);
+      font-size: 1.4rem;
       line-height: 1.7;
       opacity: 0;
       transform: translateY(40px);
       transition: all 1s ease;
       background: var(--glass-bg);
       backdrop-filter: var(--blur);
-      padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
+      padding: 3rem 2.5rem;
       border-radius: 2rem;
       border: 1px solid rgba(0,255,234,0.15);
     }
@@ -122,15 +102,10 @@
       transform: translateY(0);
     }
 
-    .price-info {
-      margin: 1.5rem 0;
-      font-size: 1.3em;
-    }
-
     .hire-btn {
       margin-top: 2rem;
       padding: 1.2rem 3.5rem;
-      font-size: clamp(1.2rem, 3vw, 1.4rem);
+      font-size: 1.4rem;
       letter-spacing: 0.15em;
       color: white;
       background: linear-gradient(135deg, #111, #1a1a3a);
@@ -139,7 +114,6 @@
       text-decoration: none;
       box-shadow: var(--neon-glow);
       transition: all 0.4s ease;
-      display: inline-block;
     }
 
     .hire-btn:hover {
@@ -183,7 +157,7 @@
       padding: 1.2rem 3rem;
       border-radius: 3rem;
       border: 1px solid rgba(255,255,255,0.1);
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
       font-weight: 300;
       box-shadow: 0 10px 40px rgba(0,0,0,0.7);
     }
@@ -196,9 +170,8 @@
 
     .featured-section {
       width: 100%;
-      max-width: 1400px;
+      max-width: 1200px;
       margin: 6rem auto 0;
-      padding: 0 2vw;
     }
 
     .featured-slider {
@@ -209,16 +182,16 @@
     .slider-track {
       display: flex;
       transition: transform 0.8s cubic-bezier(0.23,1,0.32,1);
-      gap: 2rem;
     }
 
     .launch-card {
-      flex: 0 0 clamp(280px, 80vw, 400px);
+      flex: 0 0 clamp(320px, 40vw, 420px);
       background: var(--glass-bg);
       backdrop-filter: var(--blur);
       border: 1px solid rgba(0,255,234,0.12);
       border-radius: 1.8rem;
-      padding: 1.5rem;
+      padding: 2rem;
+      margin: 0 1.2rem;
       text-align: center;
       transition: all 0.6s cubic-bezier(0.23,1,0.32,1);
       overflow: hidden;
@@ -234,7 +207,7 @@
     .video-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 9/16; /* Adjusted for portrait/short-form videos */
+      aspect-ratio: 16/9;
       border-radius: 1.2rem;
       overflow: hidden;
       margin-bottom: 1.5rem;
@@ -243,35 +216,34 @@
 
     .video-wrapper iframe {
       position: absolute;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
       border: none;
     }
 
     .launch-title {
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
       font-weight: 300;
       margin: 0.8rem 0 0.6rem;
+      color: #fff;
     }
 
     .launch-desc {
-      font-size: clamp(1rem, 3vw, 1.15rem);
+      font-size: 1.15rem;
       opacity: 0.85;
       margin-bottom: 1.5rem;
     }
 
     .cta-btn {
       padding: 0.9rem 2.5rem;
-      font-size: clamp(1rem, 3vw, 1.1rem);
+      font-size: 1.1rem;
       color: white;
       background: rgba(0,255,234,0.1);
       border: 1px solid var(--neon);
       border-radius: 3rem;
       text-decoration: none;
       transition: all 0.4s ease;
-      display: inline-block;
     }
 
     .cta-btn:hover {
@@ -288,15 +260,11 @@
       backdrop-filter: blur(10px);
       border: none;
       color: var(--neon);
-      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-size: 3.5rem;
       cursor: pointer;
-      padding: 0.5rem 1rem;
+      padding: 1rem;
       border-radius: 50%;
       transition: all 0.3s;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .slider-btn:hover { background: rgba(0,255,234,0.3); }
@@ -304,6 +272,7 @@
     .prev-btn { left: 1rem; }
     .next-btn { right: 1rem; }
 
+    /* Rick Modal */
     #rick-modal {
       position: fixed;
       inset: 0;
@@ -319,105 +288,29 @@
 
     .rick-container {
       position: relative;
-      width: min(90vw, 90vh * (16/9));
-      max-height: 90vh;
+      width: 90vw;
+      max-width: 90vh;
       aspect-ratio: 16 / 9;
       box-shadow: 0 0 100px rgba(0,255,234,0.4);
-      overflow: hidden;
-    }
-
-    .rick-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
     }
 
     .close-btn {
       position: absolute;
       top: -3rem;
       right: 0;
-      font-size: clamp(3rem, 8vw, 4rem);
+      font-size: 4rem;
       color: white;
       cursor: pointer;
-      z-index: 101;
     }
 
     .footer {
       margin-top: 8rem;
-      margin-bottom: 4rem;
-      font-size: clamp(1rem, 3vw, 1.1rem);
+      font-size: 1.1rem;
       opacity: 0.7;
-      text-align: center;
     }
 
     .dash-link { color: var(--neon); text-decoration: none; }
     .dash-link:hover { text-shadow: var(--neon-glow); }
-
-    @media (max-width: 768px) {
-      .container {
-        justify-content: flex-start;
-        padding-top: 10vh;
-      }
-      .choices {
-        flex-direction: column;
-        gap: 2rem;
-      }
-      .choice {
-        width: 80%;
-        max-width: 400px;
-      }
-      .hire-section {
-        padding: 2rem 1.5rem;
-      }
-      .slider-track {
-        gap: 1.5rem;
-      }
-      .slider-btn {
-        font-size: 2.5rem;
-        padding: 0.8rem;
-      }
-      .launch-card {
-        flex: 0 0 90vw;
-        padding: 1.2rem;
-      }
-      .rick-container {
-        width: 100vw;
-        height: auto;
-        aspect-ratio: auto;
-        max-height: none;
-      }
-      .rick-container iframe {
-        height: auto;
-        min-height: 50vh;
-      }
-    }
-
-    @media (orientation: landscape) and (max-height: 500px) {
-      .container {
-        padding: 2vh 5vw;
-        justify-content: center;
-      }
-      h1 {
-        font-size: clamp(2rem, 8vw, 4rem);
-      }
-      .hire-section {
-        padding: 1.5rem 2rem;
-      }
-    }
-
-    @media (orientation: portrait) {
-      .video-wrapper {
-        aspect-ratio: 9/16;
-      }
-      .rick-container {
-        aspect-ratio: 9/16;
-        width: 90vw;
-        max-height: 90vh;
-      }
-    }
   </style>
 </head>
 <body>
@@ -425,10 +318,10 @@
 
   <div class="container">
     <div id="brands-counter">
-      <strong>5+ Brands Launched.</strong> Real Results, Real Revenue
+      <strong>6+ Brands Launched</strong> — Real Results, Real Revenue
     </div>
 
-    <h1>Are you ready to launch your brand now?</h1>
+    <h1>Are you ready to launch a brand right now?</h1>
 
     <div class="choices">
       <div class="choice" id="yes">Yes</div>
@@ -436,9 +329,9 @@
     </div>
 
     <div id="hire-section" class="hire-section">
-      <p>Excellent. We design winning brands.</p>
-      <p>Our live portfolio proves execution across verticals. Share your vision... we'll help you materialize it into a scalable, monetized entity.</p>
-      <p class="price-info"><strong>Premium Service Starting at $75,000</strong> — Full brand design, from concept to market dominance.</p>
+      <p>Excellent. We architect high-velocity, revenue-first brands with surgical precision.</p>
+      <p>Our live portfolio proves execution across verticals. Share your vision — we'll materialize it into a scalable, monetized entity.</p>
+      <p class="price-info"><strong>Premium Service Starting at $250,000</strong> — Full incubation, from concept to market dominance.</p>
       <a href="mailto:assistance@unprincipled.inc?subject=Brand%20Launch%20Inquiry" class="hire-btn">Initiate Launch → assistance@unprincipled.inc</a>
       <div class="donate-cta">
         <p>Would you rather help support emerging creators?</p>
@@ -447,21 +340,21 @@
     </div>
 
     <div class="featured-section">
-      <h2>Launched Brands</h2>
+      <h2>Launched Brands — In Motion</h2>
       <div class="featured-slider">
         <div class="slider-track">
           <div class="launch-card">
             <div class="video-wrapper">
-              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0&playsinline=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
             <div class="launch-title">GTLAquatics</div>
-            <div class="launch-desc">Premium fish breeding</div>
+            <div class="launch-desc">Premium fish breeding & immersive aquatic systems</div>
             <a href="https://gtlaquatics.example.com?ref=unprincipled" class="cta-btn" target="_blank">Enter Ecosystem →</a>
           </div>
 
           <div class="launch-card">
             <div class="video-wrapper">
-              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0&playsinline=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
             <div class="launch-title">Nfqts</div>
             <div class="launch-desc">Boundary-pushing digital & physical art</div>
@@ -470,29 +363,38 @@
 
           <div class="launch-card">
             <div class="video-wrapper">
-              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0&playsinline=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
             <div class="launch-title">Unprincipled Modeling</div>
-            <div class="launch-desc">Changing how we approach modeling</div>
+            <div class="launch-desc">Avant-garde fashion & elite modeling</div>
             <a href="https://unprincipledmodeling.example.com?ref=unprincipled" class="cta-btn" target="_blank">View Runway →</a>
           </div>
 
           <div class="launch-card">
             <div class="video-wrapper">
-              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0&playsinline=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
             <div class="launch-title">GTLAuto</div>
-            <div class="launch-desc">Getting junk classics back on the road</div>
+            <div class="launch-desc">Precision car restoration & bespoke builds</div>
             <a href="https://gtlauto.example.com?ref=unprincipled" class="cta-btn" target="_blank">See Builds →</a>
           </div>
 
           <div class="launch-card">
             <div class="video-wrapper">
-              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0&playsinline=1" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
             <div class="launch-title">Improving Jamul</div>
             <div class="launch-desc">Innovative landscaping & outdoor transformation</div>
             <a href="https://improvingjamul.example.com?ref=unprincipled" class="cta-btn" target="_blank">Discover Projects →</a>
+          </div>
+
+          <div class="launch-card">
+            <div class="video-wrapper">
+              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+            <div class="launch-title">Bars2Beats</div>
+            <div class="launch-desc">A music platform meant to increase opportunities for artists</div>
+            <a href="https://bars2beats.example.com?ref=unprincipled" class="cta-btn" target="_blank">Join Platform →</a>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -511,89 +413,60 @@
     <div class="rick-container">
       <div class="close-btn">×</div>
       <iframe 
-        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&loop=1&playlist=dQw4w9WgXcQ&rel=0&controls=0&playsinline=1" 
-        allow="autoplay; encrypted-media; fullscreen" 
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&rel=0&controls=0" 
+        allow="autoplay; encrypted-media" 
         allowfullscreen>
       </iframe>
     </div>
   </div>
 
   <script>
-    // Enhanced immersive starfield - faster, more stars, subtle depth & color pulse
+    // Enhanced Starfield with subtle color shift
     const canvas = document.getElementById("stars");
     const ctx = canvas.getContext("2d");
     let width, height, stars = [];
-    let time = 0;
 
     function resize() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      createStars();
     }
-
     window.addEventListener("resize", resize);
     resize();
 
     function createStars() {
       stars = [];
-      const count = Math.min(400, width * height / 4000); // adaptive density
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < 220; i++) {
         stars.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          z: Math.random() * 1000 + 1,     // depth
-          baseRadius: Math.random() * 1.2 + 0.3,
-          speed: Math.random() * 0.8 + 0.2,
-          hue: 180 + Math.random() * 80,   // cyan-teal range
-          pulse: Math.random() * Math.PI * 2
+          radius: Math.random() * 1.4 + 0.4,
+          speed: Math.random() * 0.6 + 0.12,
+          alpha: Math.random() * 0.8 + 0.2,
+          hue: Math.random() * 60 + 180 // teal-cyan range
         });
       }
     }
+    createStars();
 
     function animateStars() {
-      ctx.fillStyle = 'rgba(0,0,0,0.08)';
+      ctx.fillStyle = 'rgba(0,0,0,0.05)';
       ctx.fillRect(0, 0, width, height);
-
-      time += 0.008;
-
       stars.forEach(star => {
-        // Perspective movement (simple 3D feel)
-        star.z -= star.speed;
-        if (star.z <= 0) {
-          star.z = 1000;
+        star.y += star.speed;
+        if (star.y > height) {
+          star.y = -10;
           star.x = Math.random() * width;
-          star.y = Math.random() * height;
         }
-
-        // Project to 2D
-        const scale = 1000 / star.z;
-        const px = (star.x - width/2) * scale + width/2;
-        const py = (star.y - height/2) * scale + height/2;
-        const radius = star.baseRadius * scale * 1.5;
-
-        // Subtle pulsing glow & color shift
-        const alpha = 0.6 + Math.sin(time * 2 + star.pulse) * 0.4;
-        const hue = star.hue + Math.sin(time * 0.5 + star.pulse * 0.3) * 30;
-
         ctx.beginPath();
-        ctx.arc(px, py, radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${hue}, 90%, 85%, ${alpha})`;
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${star.hue}, 80%, 80%, ${star.alpha})`;
         ctx.fill();
-
-        // Tiny glow trail
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = `hsla(${hue}, 90%, 70%, 0.5)`;
       });
-
-      ctx.shadowBlur = 0; // reset
-
       requestAnimationFrame(animateStars);
     }
-
-    createStars();
     animateStars();
 
-    // Interactions
+    // Interactions (same as before, but smoother scroll)
     const yesBtn = document.getElementById("yes");
     const noBtn = document.getElementById("no");
     const hireSection = document.getElementById("hire-section");
@@ -612,7 +485,7 @@
       rickModal.classList.remove("active");
     };
 
-    // Slider logic
+    // Slider
     const slider = document.querySelector('.featured-slider');
     const track = slider.querySelector('.slider-track');
     const prevBtn = slider.querySelector('.prev-btn');
@@ -622,10 +495,8 @@
     function updateSlider() {
       const card = track.querySelector('.launch-card');
       if (!card) return;
-      const cardWidth = card.offsetWidth + parseFloat(getComputedStyle(track).gap); // include gap
-      const visibleWidth = slider.offsetWidth;
-      const totalWidth = track.children.length * cardWidth;
-      const maxPosition = Math.max(0, totalWidth - visibleWidth) * -1;
+      const cardWidth = card.offsetWidth + 48; // margin + extra for spacing
+      const maxPosition = - (track.children.length - 1) * cardWidth;
 
       nextBtn.onclick = () => {
         position -= cardWidth;
@@ -642,7 +513,6 @@
 
     updateSlider();
     window.addEventListener('resize', updateSlider);
-    window.addEventListener('orientationchange', () => setTimeout(updateSlider, 100));
   </script>
 </body>
 </html>
