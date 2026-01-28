@@ -5,21 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Brand Launchpad — Unprincipled Inc.</title>
   <style>
+    :root {
+      --neon: #00ffea;
+      --neon-glow: 0 0 20px rgba(0, 255, 234, 0.6);
+      --glass-bg: rgba(20, 20, 40, 0.35);
+      --blur: blur(16px);
+    }
+
     html, body {
       margin: 0;
       padding: 0;
-      background: black;
-      color: white;
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', -apple-system, BlinkMacOS, 'Segoe UI', Roboto, sans-serif;
       height: 100%;
       overflow-y: auto;
     }
 
     canvas {
       position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
+      top: 0; left: 0;
+      z-index: -2;
       pointer-events: none;
     }
 
@@ -32,95 +38,113 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 40px 20px;
-      box-sizing: border-box;
+      padding: 5vh 5vw;
     }
 
     h1 {
       font-weight: 300;
-      letter-spacing: 1.5px;
-      font-size: clamp(2rem, 6vw, 3.2rem);
-      margin: 0 0 30px;
+      letter-spacing: 0.15em;
+      font-size: clamp(2.8rem, 8vw, 5rem);
+      margin: 0 0 1.5rem;
+      background: linear-gradient(90deg, #fff, var(--neon), #fff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+      to   { text-shadow: var(--neon-glow); }
     }
 
     .choices {
       display: flex;
-      gap: 80px;
-      justify-content: center;
-      margin: 40px 0 60px;
+      gap: clamp(4rem, 12vw, 10rem);
+      margin: 3rem 0 5rem;
     }
 
     .choice {
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
       font-weight: 200;
-      letter-spacing: 3px;
+      letter-spacing: 0.2em;
       cursor: pointer;
-      transition: all 0.4s ease;
+      padding: 1rem 2rem;
+      border-radius: 1.5rem;
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: all 0.5s cubic-bezier(0.23,1,0.32,1);
     }
 
     .choice:hover {
-      transform: translateY(-8px) scale(1.05);
-      opacity: 0.9;
+      transform: translateY(-12px) scale(1.08);
+      box-shadow: var(--neon-glow), 0 20px 60px rgba(0,0,0,0.6);
+      border-color: var(--neon);
     }
 
     .hire-section {
-      max-width: 700px;
-      margin: 40px auto;
-      font-size: 1.3rem;
-      line-height: 1.6;
-      opacity: 0.9;
-      display: none;
+      max-width: 800px;
+      margin: 4rem auto 0;
+      font-size: 1.4rem;
+      line-height: 1.7;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s ease;
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      padding: 3rem 2.5rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(0,255,234,0.15);
     }
 
     .hire-section.active {
-      display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .hire-btn {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 16px 48px;
-      font-size: 1.3rem;
-      letter-spacing: 2px;
+      margin-top: 2rem;
+      padding: 1.2rem 3.5rem;
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
       color: white;
-      background: linear-gradient(135deg, #333, #111);
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 50px;
+      background: linear-gradient(135deg, #111, #1a1a3a);
+      border: 1px solid var(--neon);
+      border-radius: 3rem;
       text-decoration: none;
-      transition: all 0.3s ease;
+      box-shadow: var(--neon-glow);
+      transition: all 0.4s ease;
     }
 
     .hire-btn:hover {
-      background: linear-gradient(135deg, #555, #333);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(255,255,255,0.1);
+      background: linear-gradient(135deg, var(--neon), #00b8a9);
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(0,255,234,0.7);
     }
 
-    /* Brands Launched Counter */
     #brands-counter {
-      margin: 20px 0 60px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(12px);
-      padding: 20px 50px;
-      border-radius: 60px;
-      border: 1px solid rgba(255,255,255,0.2);
-      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      margin: 2rem 0 4rem;
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      padding: 1.2rem 3rem;
+      border-radius: 3rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
       font-weight: 300;
-      letter-spacing: 1.8px;
-      box-shadow: 0 10px 50px rgba(0,0,0,0.7);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
     }
 
     #brands-counter strong {
-      color: #99ffbb;
+      color: var(--neon);
       font-weight: 400;
+      text-shadow: 0 0 15px var(--neon);
     }
 
-    /* Featured Brands Slider */
     .featured-section {
       width: 100%;
-      max-width: 1100px;
-      margin: 60px auto 0;
-      padding: 0 20px;
+      max-width: 1200px;
+      margin: 6rem auto 0;
     }
 
     .featured-slider {
@@ -130,88 +154,96 @@
 
     .slider-track {
       display: flex;
-      transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+      transition: transform 0.8s cubic-bezier(0.23,1,0.32,1);
     }
 
     .launch-card {
-      flex: 0 0 clamp(300px, 38vw, 380px);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 20px;
-      padding: 40px 28px;
-      margin-right: 28px;
+      flex: 0 0 clamp(320px, 40vw, 420px);
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid rgba(0,255,234,0.12);
+      border-radius: 1.8rem;
+      padding: 2rem;
+      margin: 0 1.2rem;
       text-align: center;
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.02);
-      transition: all 0.4s ease;
-      min-height: 380px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      transition: all 0.6s cubic-bezier(0.23,1,0.32,1);
+      overflow: hidden;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.5);
     }
 
     .launch-card:hover {
-      transform: translateY(-14px) scale(1.04);
-      box-shadow: 0 25px 70px rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.45);
+      transform: translateY(-20px);
+      border-color: var(--neon);
+      box-shadow: var(--neon-glow), 0 30px 80px rgba(0,0,0,0.7);
     }
 
-    .launch-logo {
-      width: 140px;
-      height: 140px;
-      margin: 0 auto 28px;
-      object-fit: contain;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.04);
-      padding: 18px;
-      filter: drop-shadow(0 6px 18px rgba(0,0,0,0.5));
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 1.2rem;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
     .launch-title {
-      font-size: clamp(1.6rem, 4vw, 2rem);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
       font-weight: 300;
-      margin-bottom: 14px;
+      margin: 0.8rem 0 0.6rem;
+      color: #fff;
     }
 
     .launch-desc {
-      font-size: 1.1rem;
-      opacity: 0.8;
-      line-height: 1.5;
-      margin-bottom: 28px;
+      font-size: 1.15rem;
+      opacity: 0.85;
+      margin-bottom: 1.5rem;
     }
 
     .cta-btn {
-      padding: 14px 40px;
-      font-size: 1.15rem;
+      padding: 0.9rem 2.5rem;
+      font-size: 1.1rem;
       color: white;
-      background: linear-gradient(135deg, #444, #222);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 50px;
+      background: rgba(0,255,234,0.1);
+      border: 1px solid var(--neon);
+      border-radius: 3rem;
       text-decoration: none;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
     }
 
     .cta-btn:hover {
-      background: linear-gradient(135deg, #666, #444);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 40px rgba(255,255,255,0.12);
+      background: var(--neon);
+      color: #000;
+      box-shadow: var(--neon-glow);
     }
 
     .slider-btn {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: transparent;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px);
       border: none;
-      color: white;
-      font-size: 3rem;
+      color: var(--neon);
+      font-size: 3.5rem;
       cursor: pointer;
-      opacity: 0.5;
-      transition: opacity 0.3s;
+      padding: 1rem;
+      border-radius: 50%;
+      transition: all 0.3s;
     }
 
-    .slider-btn:hover { opacity: 1; }
-    .prev-btn { left: 0; }
-    .next-btn { right: 0; }
+    .slider-btn:hover { background: rgba(0,255,234,0.3); }
+
+    .prev-btn { left: 1rem; }
+    .next-btn { right: 1rem; }
 
     /* Rick Modal */
     #rick-modal {
@@ -223,7 +255,6 @@
       justify-content: center;
       z-index: 100;
       cursor: pointer;
-      padding: 20px;
     }
 
     #rick-modal.active { display: flex; }
@@ -233,35 +264,26 @@
       width: 90vw;
       max-width: 90vh;
       aspect-ratio: 16 / 9;
-      box-shadow: 0 0 80px rgba(255,255,255,0.2);
+      box-shadow: 0 0 100px rgba(0,255,234,0.4);
     }
 
     .close-btn {
       position: absolute;
-      top: -40px;
+      top: -3rem;
       right: 0;
-      font-size: 3rem;
+      font-size: 4rem;
+      color: white;
       cursor: pointer;
-      opacity: 0.8;
     }
-
-    .close-btn:hover { opacity: 1; }
-
-    iframe { width: 100%; height: 100%; border: none; }
 
     .footer {
-      margin-top: 100px;
-      font-size: 1rem;
-      opacity: 0.6;
-      text-align: center;
+      margin-top: 8rem;
+      font-size: 1.1rem;
+      opacity: 0.7;
     }
 
-    .dash-link {
-      color: #a0d0ff;
-      text-decoration: none;
-    }
-
-    .dash-link:hover { text-decoration: underline; }
+    .dash-link { color: var(--neon); text-decoration: none; }
+    .dash-link:hover { text-shadow: var(--neon-glow); }
   </style>
 </head>
 <body>
@@ -280,38 +302,49 @@
     </div>
 
     <div id="hire-section" class="hire-section">
-      <p>Great. We build high-quality, revenue-focused brands quickly and discreetly.</p>
-      <p>Our portfolio demonstrates proven execution across niches. Let's discuss your vision and turn it into a live, monetizable brand.</p>
-      <a href="mailto:assistance@unprincipled.inc?subject=Brand%20Launch%20Inquiry" class="hire-btn">Hire Us → assistance@unprincipled.inc</a>
+      <p>Excellent. We architect high-velocity, revenue-first brands with surgical precision.</p>
+      <p>Our live portfolio proves execution across verticals. Share your vision — we'll materialize it into a scalable, monetized entity.</p>
+      <a href="mailto:assistance@unprincipled.inc?subject=Brand%20Launch%20Inquiry" class="hire-btn">Initiate Launch → assistance@unprincipled.inc</a>
     </div>
 
     <div class="featured-section">
-      <h2>Our Launched Brands</h2>
+      <h2>Launched Brands — In Motion</h2>
       <div class="featured-slider">
         <div class="slider-track">
           <div class="launch-card">
-            <img src="https://via.placeholder.com/140/0a5/fff?text=GTLAquatics" alt="GTLAquatics Logo" class="launch-logo">
+            <div class="video-wrapper">
+              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
             <div class="launch-title">GTLAquatics</div>
-            <div class="launch-desc">Premium fish breeding & aquatic ecosystems</div>
-            <a href="https://gtlaquatics.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
+            <div class="launch-desc">Premium fish breeding & immersive aquatic systems</div>
+            <a href="https://gtlaquatics.example.com?ref=unprincipled" class="cta-btn" target="_blank">Enter Ecosystem →</a>
           </div>
+
           <div class="launch-card">
-            <img src="https://via.placeholder.com/140/333/fff?text=Nfqts" alt="Nfqts Logo" class="launch-logo">
+            <div class="video-wrapper">
+              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
             <div class="launch-title">Nfqts</div>
-            <div class="launch-desc">Contemporary digital & physical art collections</div>
-            <a href="https://nfqts.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
+            <div class="launch-desc">Boundary-pushing digital & physical art</div>
+            <a href="https://nfqts.example.com?ref=unprincipled" class="cta-btn" target="_blank">Explore Gallery →</a>
           </div>
+
           <div class="launch-card">
-            <img src="https://via.placeholder.com/140/555/fff?text=Unprincipled+Modeling" alt="Unprincipled Modeling Logo" class="launch-logo">
+            <div class="video-wrapper">
+              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
             <div class="launch-title">Unprincipled Modeling</div>
-            <div class="launch-desc">Avant-garde fashion & modeling agency</div>
-            <a href="https://unprincipledmodeling.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
+            <div class="launch-desc">Avant-garde fashion & elite modeling</div>
+            <a href="https://unprincipledmodeling.example.com?ref=unprincipled" class="cta-btn" target="_blank">View Runway →</a>
           </div>
+
           <div class="launch-card">
-            <img src="https://via.placeholder.com/140/777/fff?text=GTLAuto" alt="GTLAuto Logo" class="launch-logo">
+            <div class="video-wrapper">
+              <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID_HERE&controls=0&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
             <div class="launch-title">GTLAuto</div>
-            <div class="launch-desc">Expert car restoration & custom builds</div>
-            <a href="https://gtlauto.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
+            <div class="launch-desc">Precision car restoration & bespoke builds</div>
+            <a href="https://gtlauto.example.com?ref=unprincipled" class="cta-btn" target="_blank">See Builds →</a>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -338,7 +371,7 @@
   </div>
 
   <script>
-    // Starfield
+    // Enhanced Starfield with subtle color shift
     const canvas = document.getElementById("stars");
     const ctx = canvas.getContext("2d");
     let width, height, stars = [];
@@ -352,20 +385,22 @@
 
     function createStars() {
       stars = [];
-      for (let i = 0; i < 180; i++) {
+      for (let i = 0; i < 220; i++) {
         stars.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          radius: Math.random() * 1.3 + 0.4,
-          speed: Math.random() * 0.5 + 0.1,
-          alpha: Math.random() * 0.7 + 0.3
+          radius: Math.random() * 1.4 + 0.4,
+          speed: Math.random() * 0.6 + 0.12,
+          alpha: Math.random() * 0.8 + 0.2,
+          hue: Math.random() * 60 + 180 // teal-cyan range
         });
       }
     }
     createStars();
 
     function animateStars() {
-      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = 'rgba(0,0,0,0.05)';
+      ctx.fillRect(0, 0, width, height);
       stars.forEach(star => {
         star.y += star.speed;
         if (star.y > height) {
@@ -374,14 +409,14 @@
         }
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
+        ctx.fillStyle = `hsla(${star.hue}, 80%, 80%, ${star.alpha})`;
         ctx.fill();
       });
       requestAnimationFrame(animateStars);
     }
     animateStars();
 
-    // Interactions
+    // Interactions (same as before, but smoother scroll)
     const yesBtn = document.getElementById("yes");
     const noBtn = document.getElementById("no");
     const hireSection = document.getElementById("hire-section");
@@ -389,7 +424,7 @@
 
     yesBtn.onclick = () => {
       hireSection.classList.add("active");
-      window.scrollTo({ top: hireSection.offsetTop - 100, behavior: 'smooth' });
+      hireSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
     noBtn.onclick = () => rickModal.classList.add("active");
@@ -408,7 +443,9 @@
     let position = 0;
 
     function updateSlider() {
-      const cardWidth = track.querySelector('.launch-card').offsetWidth + 28;
+      const card = track.querySelector('.launch-card');
+      if (!card) return;
+      const cardWidth = card.offsetWidth + 48; // margin + extra for spacing
       const maxPosition = - (track.children.length - 1) * cardWidth;
 
       nextBtn.onclick = () => {
