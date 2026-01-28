@@ -191,7 +191,7 @@
     /* Portfolio Dashboard Styles */
     .portfolio-section {
       width: 100%;
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 0 20px;
       box-sizing: border-box;
@@ -199,59 +199,84 @@
 
     .portfolio-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: clamp(20px, 4vw, 40px);
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: clamp(24px, 4vw, 40px);
       justify-items: center;
       margin-bottom: 40px;
     }
 
     .brand-card {
       border: 1px solid rgba(255,255,255,0.2);
-      padding: clamp(20px, 4vw, 30px);
+      border-radius: 16px;
+      padding: 32px 24px;
       width: 100%;
-      max-width: 220px;
+      max-width: 340px;
       text-align: center;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.03);
       transition: all 0.4s ease;
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
     }
 
     .brand-card:hover {
-      transform: translateY(-6px) scale(1.03);
-      box-shadow: 0 0 40px rgba(255,255,255,0.12);
+      transform: translateY(-12px) scale(1.04);
+      box-shadow: 0 20px 60px rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .brand-logo {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 24px;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.5));
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      padding: 16px;
     }
 
     .brand-name {
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      font-weight: 200;
+      font-size: clamp(1.5rem, 4vw, 1.9rem);
+      font-weight: 300;
       letter-spacing: 1px;
-      margin-bottom: 8px;
-      display: block;
+      margin-bottom: 12px;
     }
 
     .brand-desc {
-      font-size: clamp(0.9rem, 2.2vw, 1rem);
+      font-size: clamp(1rem, 2.4vw, 1.15rem);
       opacity: 0.85;
-      line-height: 1.4;
+      line-height: 1.5;
+      margin-bottom: 24px;
     }
 
     .brand-link {
-      font-size: clamp(0.8rem, 2vw, 0.9rem);
-      color: #a0d0ff;
+      display: inline-block;
+      padding: 14px 40px;
+      font-size: 1.15rem;
+      letter-spacing: 1.5px;
+      color: white;
+      background: linear-gradient(135deg, #444, #222);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px;
       text-decoration: none;
-      display: block;
-      margin-top: 12px;
-      opacity: 0.7;
+      transition: all 0.3s ease;
     }
 
     .brand-link:hover {
-      opacity: 1;
+      background: linear-gradient(135deg, #666, #444);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 35px rgba(255,255,255,0.12);
     }
 
-    /* Featured Brands Slider */
+    /* Enhanced Featured Slider */
     .featured-section {
       width: 100%;
-      max-width: 800px;
-      margin: 40px auto;
+      max-width: 1000px;
+      margin: 60px auto;
       padding: 0 20px;
       box-sizing: border-box;
     }
@@ -259,38 +284,80 @@
     .featured-slider {
       position: relative;
       overflow: hidden;
-      margin-top: 20px;
+      margin-top: 30px;
     }
 
     .slider-track {
       display: flex;
-      transition: transform 0.5s ease;
+      transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
     }
 
     .launch-card {
-      flex: 0 0 clamp(200px, 30vw, 300px);
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: clamp(20px, 4vw, 30px);
-      margin-right: 20px;
+      flex: 0 0 clamp(280px, 35vw, 360px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 32px 24px;
+      margin-right: 24px;
       text-align: center;
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.03);
       transition: all 0.4s ease;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 340px;
+      box-sizing: border-box;
     }
 
     .launch-card:hover {
-      transform: translateY(-6px) scale(1.03);
-      box-shadow: 0 0 40px rgba(255,255,255,0.12);
+      transform: translateY(-12px) scale(1.04);
+      box-shadow: 0 20px 60px rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .launch-logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      padding: 12px;
     }
 
     .launch-title {
-      font-size: clamp(1.1rem, 3vw, 1.35rem);
-      margin-bottom: 8px;
+      font-size: clamp(1.4rem, 3.5vw, 1.7rem);
+      font-weight: 300;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
     }
 
     .launch-desc {
-      font-size: clamp(0.8rem, 2vw, 0.9rem);
-      opacity: 0.65;
+      font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+      opacity: 0.75;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 12px 32px;
+      font-size: 1.1rem;
+      letter-spacing: 1.5px;
+      color: white;
+      background: linear-gradient(135deg, #444, #222);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      background: linear-gradient(135deg, #666, #444);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255,255,255,0.1);
     }
 
     .slider-btn {
@@ -300,9 +367,9 @@
       background: transparent;
       border: none;
       color: white;
-      font-size: 2rem;
+      font-size: 2.8rem;
       cursor: pointer;
-      opacity: 0.7;
+      opacity: 0.6;
       transition: opacity 0.3s;
     }
 
@@ -310,15 +377,34 @@
       opacity: 1;
     }
 
-    .prev-btn {
-      left: 10px;
+    .prev-btn { left: 10px; }
+    .next-btn { right: 10px; }
+
+    /* Brands Launched Counter - Prominent */
+    #brands-counter {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      padding: 16px 40px;
+      border-radius: 60px;
+      border: 1px solid rgba(255,255,255,0.25);
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 1.5px;
+      z-index: 10;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      white-space: nowrap;
     }
 
-    .next-btn {
-      right: 10px;
+    #brands-counter strong {
+      color: #88ffaa;
+      font-weight: 400;
     }
 
-    /* Rick modal (unchanged) */
+    /* Rick modal */
     #rick-modal {
       position: fixed;
       inset: 0;
@@ -361,44 +447,14 @@
     .close-btn:hover { opacity: 1; }
 
     iframe { width: 100%; height: 100%; border: none; }
-
-    /* PBBG Reward HUD (adapted for brands) */
-    #reward-hud {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0,0,0,0.6);
-      padding: 8px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 2;
-      font-size: 0.9rem;
-      opacity: 0.8;
-      transition: opacity 0.3s;
-    }
-
-    #reward-hud:hover {
-      opacity: 1;
-    }
-
-    #brands-launched {
-      font-weight: bold;
-    }
-
-    #timer {
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
   <canvas id="stars"></canvas>
 
-  <!-- PBBG Reward HUD (Adapted) -->
-  <div id="reward-hud">
-    <span>Brands Launched: <span id="brands-launched">0</span></span>
-    <span>Next Launch In: <span id="timer">1:00</span></span>
+  <!-- Prominent Brands Launched Counter -->
+  <div id="brands-counter">
+    <strong>12</strong> Brands Launched & Counting
   </div>
 
   <!-- Screen 1 -->
@@ -409,22 +465,33 @@
       <div class="choice" id="no">No</div>
     </div>
 
-    <!-- Featured Brands -->
     <div class="featured-section">
       <h2>Featured Brands</h2>
       <div class="featured-slider">
         <div class="slider-track">
           <div class="launch-card">
+            <img src="https://via.placeholder.com/120/333/fff?text=EcoDrive" alt="EcoDrive Logo" class="launch-logo">
             <div class="launch-title">EcoDrive</div>
-            <div class="launch-desc">Sustainable auto solutions.</div>
+            <div class="launch-desc">Sustainable mobility reimagined — electric & eco-conscious vehicles.</div>
+            <a href="https://ecodrive.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
           <div class="launch-card">
+            <img src="https://via.placeholder.com/120/444/fff?text=VidBoost" alt="VidBoost Logo" class="launch-logo">
             <div class="launch-title">VidBoost</div>
-            <div class="launch-desc">AI-powered content creation.</div>
+            <div class="launch-desc">AI-powered video creation & brand amplification tools.</div>
+            <a href="https://vidboost.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
           <div class="launch-card">
+            <img src="https://via.placeholder.com/120/555/fff?text=GreenThumb" alt="GreenThumb Logo" class="launch-logo">
             <div class="launch-title">GreenThumb</div>
-            <div class="launch-desc">Organic gardening tools.</div>
+            <div class="launch-desc">Smart organic gardening for modern urban lifestyles.</div>
+            <a href="https://greenthumb.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
+          </div>
+          <div class="launch-card">
+            <img src="https://via.placeholder.com/120/2a9/fff?text=AquaLife" alt="AquaLife Logo" class="launch-logo">
+            <div class="launch-title">AquaLife</div>
+            <div class="launch-desc">Premium aquatic ecosystems & fish breeding solutions.</div>
+            <a href="https://aqualife.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -455,18 +522,27 @@
 
     <div class="submit" id="submit">Continue</div>
 
-    <!-- Featured Brands -->
     <div class="featured-section">
       <h2>Featured Brands</h2>
       <div class="featured-slider">
         <div class="slider-track">
           <div class="launch-card">
+            <img src="https://via.placeholder.com/120/2a9/fff?text=AquaLife" alt="AquaLife Logo" class="launch-logo">
             <div class="launch-title">AquaLife</div>
-            <div class="launch-desc">Premium fish breeding kits.</div>
+            <div class="launch-desc">Premium aquatic ecosystems & fish breeding solutions.</div>
+            <a href="https://aqualife.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
           <div class="launch-card">
+            <img src="https://via.placeholder.com/120/6a9/fff?text=BloomCare" alt="BloomCare Logo" class="launch-logo">
             <div class="launch-title">BloomCare</div>
-            <div class="launch-desc">Smart landscaping services.</div>
+            <div class="launch-desc">Smart landscaping & plant care services.</div>
+            <a href="https://bloomcare.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
+          </div>
+          <div class="launch-card">
+            <img src="https://via.placeholder.com/120/777/fff?text=NexGen" alt="NexGen Logo" class="launch-logo">
+            <div class="launch-title">NexGen</div>
+            <div class="launch-desc">Next-generation tech accessories & tools.</div>
+            <a href="https://nexgen.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -475,7 +551,7 @@
     </div>
   </div>
 
-  <!-- Investor Dashboard Screen (Roadmap) -->
+  <!-- Roadmap Screen -->
   <div class="screen" id="screen3">
     <h1>This is an alpha test.</h1>
     <p style="font-size:1.1rem; opacity:0.7; max-width:600px; margin:0 auto 40px; line-height:1.6;">
@@ -505,18 +581,21 @@
 
     <div class="submit" id="continue-to-portfolio">Continue to Portfolio</div>
 
-    <!-- Featured Brands -->
     <div class="featured-section">
       <h2>Featured Brands</h2>
       <div class="featured-slider">
         <div class="slider-track">
           <div class="launch-card">
+            <img src="https://via.placeholder.com/120/2a9/fff?text=AquaLife" alt="AquaLife Logo" class="launch-logo">
             <div class="launch-title">AquaLife</div>
-            <div class="launch-desc">Premium fish breeding kits.</div>
+            <div class="launch-desc">Premium aquatic ecosystems & fish breeding solutions.</div>
+            <a href="https://aqualife.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
           <div class="launch-card">
+            <img src="https://via.placeholder.com/120/6a9/fff?text=BloomCare" alt="BloomCare Logo" class="launch-logo">
             <div class="launch-title">BloomCare</div>
-            <div class="launch-desc">Smart landscaping services.</div>
+            <div class="launch-desc">Smart landscaping & plant care services.</div>
+            <a href="https://bloomcare.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -532,7 +611,7 @@
     </div>
   </div>
 
-  <!-- Portfolio Page Screen -->
+  <!-- Portfolio Screen -->
   <div class="screen" id="screen4">
     <h1>Our Portfolio</h1>
     <p style="font-size:1.1rem; opacity:0.7; max-width:600px; margin:0 auto 40px; line-height:1.6;">
@@ -542,50 +621,59 @@
     <div class="portfolio-section">
       <div class="portfolio-grid">
         <div class="brand-card">
-          <span class="brand-name">EcoDrive</span>
-          <span class="brand-desc">Sustainable mobility solutions</span>
-          <a href="https://ecodrive.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Site →</a>
+          <img src="https://via.placeholder.com/140/333/fff?text=EcoDrive" alt="EcoDrive Logo" class="brand-logo">
+          <div class="brand-name">EcoDrive</div>
+          <div class="brand-desc">Sustainable mobility reimagined — electric & eco-conscious vehicles.</div>
+          <a href="https://ecodrive.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
         </div>
         <div class="brand-card">
-          <span class="brand-name">VidBoost</span>
-          <span class="brand-desc">Content creation platform</span>
-          <a href="https://vidboost.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Site →</a>
+          <img src="https://via.placeholder.com/140/444/fff?text=VidBoost" alt="VidBoost Logo" class="brand-logo">
+          <div class="brand-name">VidBoost</div>
+          <div class="brand-desc">AI-powered video creation & brand amplification tools.</div>
+          <a href="https://vidboost.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
         </div>
         <div class="brand-card">
-          <span class="brand-name">GreenThumb</span>
-          <span class="brand-desc">Gardening essentials</span>
-          <a href="https://greenthumb.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Site →</a>
+          <img src="https://via.placeholder.com/140/555/fff?text=GreenThumb" alt="GreenThumb Logo" class="brand-logo">
+          <div class="brand-name">GreenThumb</div>
+          <div class="brand-desc">Smart organic gardening for modern urban lifestyles.</div>
+          <a href="https://greenthumb.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
         </div>
         <div class="brand-card">
-          <span class="brand-name">AquaLife</span>
-          <span class="brand-desc">Aquarium innovations</span>
-          <a href="https://aqualife.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Site →</a>
+          <img src="https://via.placeholder.com/140/2a9/fff?text=AquaLife" alt="AquaLife Logo" class="brand-logo">
+          <div class="brand-name">AquaLife</div>
+          <div class="brand-desc">Premium aquatic ecosystems & fish breeding solutions.</div>
+          <a href="https://aqualife.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
         </div>
         <div class="brand-card">
-          <span class="brand-name">BloomCare</span>
-          <span class="brand-desc">Landscaping services</span>
-          <a href="https://bloomcare.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Site →</a>
+          <img src="https://via.placeholder.com/140/6a9/fff?text=BloomCare" alt="BloomCare Logo" class="brand-logo">
+          <div class="brand-name">BloomCare</div>
+          <div class="brand-desc">Smart landscaping & plant care services.</div>
+          <a href="https://bloomcare.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
         </div>
         <div class="brand-card">
-          <span class="brand-name">NexGen</span>
-          <span class="brand-desc">Tech incubator spin-off</span>
-          <a href="https://nexgen.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Site →</a>
+          <img src="https://via.placeholder.com/140/777/fff?text=NexGen" alt="NexGen Logo" class="brand-logo">
+          <div class="brand-name">NexGen</div>
+          <div class="brand-desc">Next-generation tech accessories & tools.</div>
+          <a href="https://nexgen.example.com?ref=unprincipled" class="brand-link" target="_blank">Visit Brand →</a>
         </div>
       </div>
     </div>
 
-    <!-- Featured Brands -->
     <div class="featured-section">
-      <h2>Featured Brands</h2>
+      <h2>More Featured Brands</h2>
       <div class="featured-slider">
         <div class="slider-track">
           <div class="launch-card">
-            <div class="launch-title">AquaLife</div>
-            <div class="launch-desc">Premium fish breeding kits.</div>
+            <img src="https://via.placeholder.com/120/888/fff?text=PeakPulse" alt="PeakPulse Logo" class="launch-logo">
+            <div class="launch-title">PeakPulse</div>
+            <div class="launch-desc">Performance fitness & recovery gear.</div>
+            <a href="https://peakpulse.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
           <div class="launch-card">
-            <div class="launch-title">BloomCare</div>
-            <div class="launch-desc">Smart landscaping services.</div>
+            <img src="https://via.placeholder.com/120/999/fff?text=ForgeLabs" alt="ForgeLabs Logo" class="launch-logo">
+            <div class="launch-title">ForgeLabs</div>
+            <div class="launch-desc">Custom hardware prototyping & manufacturing.</div>
+            <a href="https://forgelabs.example.com?ref=unprincipled" class="cta-btn" target="_blank">Visit Brand →</a>
           </div>
         </div>
         <button class="slider-btn prev-btn">←</button>
@@ -614,7 +702,7 @@
   </div>
 
   <script>
-    // STARFIELD (unchanged)
+    // STARFIELD
     const canvas = document.getElementById("stars");
     const ctx = canvas.getContext("2d");
     let width, height, stars = [];
@@ -644,4 +732,97 @@
       ctx.clearRect(0, 0, width, height);
       stars.forEach(star => {
         star.y += star.speed;
-        if (star.y >​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​
+        if (star.y > height) {
+          star.y = -10;
+          star.x = Math.random() * width;
+        }
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animateStars);
+    }
+    animateStars();
+
+    // Screen logic
+    const screens = {
+      s1: document.getElementById("screen1"),
+      s2: document.getElementById("screen2"),
+      s3: document.getElementById("screen3"),
+      s4: document.getElementById("screen4")
+    };
+
+    document.getElementById("yes").onclick = () => {
+      screens.s1.classList.remove("active");
+      setTimeout(() => screens.s2.classList.add("active"), 900);
+    };
+
+    // Rick roll
+    const rickModal = document.getElementById("rick-modal");
+    document.getElementById("no").onclick = () => rickModal.classList.add("active");
+    rickModal.onclick = () => rickModal.classList.remove("active");
+    rickModal.querySelector(".close-btn").onclick = e => {
+      e.stopPropagation();
+      rickModal.classList.remove("active");
+    };
+
+    // Type selection
+    let selectedType = null;
+    document.querySelectorAll(".type-card").forEach(card => {
+      card.onclick = () => {
+        document.querySelectorAll(".type-card").forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+        selectedType = card.dataset.type;
+      };
+    });
+
+    // Submit → roadmap screen
+    document.getElementById("submit").onclick = () => {
+      const ideas = document.getElementById("ideas").value.trim();
+
+      if (!selectedType) return alert("Please select a brand type.");
+      if (!ideas) return alert("Please describe your brand ideas.");
+
+      screens.s2.classList.remove("active");
+      setTimeout(() => screens.s3.classList.add("active"), 900);
+    };
+
+    // Continue to portfolio
+    document.getElementById("continue-to-portfolio").onclick = () => {
+      screens.s3.classList.remove("active");
+      setTimeout(() => screens.s4.classList.add("active"), 900);
+    };
+
+    // Slider logic
+    document.querySelectorAll('.featured-slider').forEach(slider => {
+      const track = slider.querySelector('.slider-track');
+      const prevBtn = slider.querySelector('.prev-btn');
+      const nextBtn = slider.querySelector('.next-btn');
+      let position = 0;
+
+      function update() {
+        const card = slider.querySelector('.launch-card');
+        if (!card) return;
+        const cardWidth = card.offsetWidth + 24; // margin-right
+        const maxPosition = - (track.children.length - 1) * cardWidth;
+
+        nextBtn.onclick = () => {
+          position -= cardWidth;
+          if (position < maxPosition) position = maxPosition;
+          track.style.transform = `translateX(${position}px)`;
+        };
+
+        prevBtn.onclick = () => {
+          position += cardWidth;
+          if (position > 0) position = 0;
+          track.style.transform = `translateX(${position}px)`;
+        };
+      }
+
+      update();
+      window.addEventListener('resize', update);
+    });
+  </script>
+</body>
+</html>
